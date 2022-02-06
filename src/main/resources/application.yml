@@ -1,7 +1,10 @@
+server:  port: 8080  servlet:    context-path: /
+
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     password: cos1234
-    username: cos
+    username: cos    mvc:    view:      prefix: /WEB-INF/views/      suffix: .jsp  jpa:    open-in-view: true  # 어려움    hibernate:      ddl-auto: create #db를 자동으로 삭제/생성      naming:        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #필드 네임으로 테이블 생성 네이밍 전략       use-new-id-generator-mappings: false #jpa의 기본 id 제너레이터를 사용하지 않음    show-sql: true #console창에 sql문 표시    properties:      hibernate.format_sql: true            
     
