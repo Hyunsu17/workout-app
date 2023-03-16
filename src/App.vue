@@ -2,24 +2,22 @@
   <v-app>
     <v-main>
       <router-view/>
-    </v-main >
-    <v-footer>
-      <v-bottom-navigation
+    </v-main>
+    <v-bottom-navigation
+    >
+      <v-row justify="center"
+             align="center"
       >
-        <v-row justify="center"
-               align="center"
+        <v-btn
+            v-for="(value,key,index) in links" :key="index"
+            style="width: 19%"
+            class="rounded-circle"
         >
-          <v-btn
-              v-for="(value,key,index) in links" :key="index"
-              style="width: 19%"
-              class="rounded-circle"
-          >
-            <v-icon :icon="value"></v-icon>
-            {{ key }}
-          </v-btn>
-        </v-row>
-      </v-bottom-navigation>
-    </v-footer>
+          <v-icon :icon="value"></v-icon>
+          {{ key }}
+        </v-btn>
+      </v-row>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
@@ -46,11 +44,13 @@ export default {
   font-family: "suit-regular";
   src: local("suit-regular"), url("./assets/fonts/SUIT-Regular.ttf") format("truetype");
 }
+
 @font-face {
   font-family: "BMdohyeon";
   src: local("BMdohyeon"), url("./assets/fonts/BMDOHYEON_ttf.ttf") format("truetype");
 }
-.v-btn{
+
+.v-btn {
   font-family: BMdohyeon, Serif;
 }
 </style>
