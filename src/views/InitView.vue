@@ -11,7 +11,7 @@
             class="text-brown-darken-4"
             rounded="pill"
         >
-          Kakao로 로그인
+          Kakao 로그인
         </v-btn>
       </v-col>
       <v-col cols="12">
@@ -22,7 +22,7 @@
             rounded="pill"
             class="text-white"
         >
-          Google로 로그인
+          Google 로그인
         </v-btn>
       </v-col>
     </v-row>
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped>
-#wrapper{
+#wrapper {
   height: 100%;
 }
 
@@ -45,10 +45,12 @@ export default {
   font-family: "BMdohyeon";
   src: local("BMdohyeon"), url("../assets/fonts/BMDOHYEON_ttf.ttf") format("truetype");
 }
-#footer{
+
+#footer {
   position: relative;
   transform: translateY(-200%);
 }
+
 p {
   font-family: suit-regular, Serif;
   font-size: 80px;

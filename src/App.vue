@@ -8,14 +8,20 @@
       <v-row justify="center"
              align="center"
       >
-        <v-btn
-            v-for="(value,key,index) in links" :key="index"
-            style="width: 19%"
-            class="rounded-circle"
+
+        <router-link :to=urlLink[index]
+                     v-for="(value,key,index) in links" :key="index"
+                     style="width:20%; position: relative; left: 10%
+                      ;"
+
         >
-          <v-icon :icon="value"></v-icon>
-          {{ key }}
-        </v-btn>
+          <v-btn
+              block
+          >
+            <v-icon :icon="value"></v-icon>
+            {{ key }}
+          </v-btn>
+        </router-link>
       </v-row>
     </v-bottom-navigation>
   </v-app>
@@ -33,7 +39,8 @@ export default {
       루틴: 'mdi-dumbbell',
       피드: 'mdi-magnify',
       설정: 'mdi-cog'
-    }
+    },
+    urlLink: ['/summary', '/calendar', '/routine', 'feed', '/setting']
   })
   ,
 }
