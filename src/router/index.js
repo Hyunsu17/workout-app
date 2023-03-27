@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import InitView from "@/views/InitView.vue";
+import SettingView from "@/views/Setting.vue"
 import WorkoutRoutine from "@/views/WorkoutRoutine.vue";
 
 const router = createRouter({
@@ -28,6 +29,11 @@ const router = createRouter({
       path:'/routine',
       name:'WorkoutRoutine',
       component: WorkoutRoutine
+    },
+    {
+      path:'/setting',
+      name:'Setting',
+      component: SettingView
     }
   ]
 })
