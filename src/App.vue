@@ -60,4 +60,7 @@ export default {
 .v-btn {
   font-family: BMdohyeon, Serif;
 }
+a {
+  text-decoration: none;
+}
 </style>

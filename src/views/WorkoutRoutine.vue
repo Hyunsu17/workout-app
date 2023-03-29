@@ -22,7 +22,6 @@
 
   <v-row>
     <v-col
-        style="border: black solid;"
         cols="auto"
     >
       <v-avatar
@@ -35,7 +34,6 @@
         cols="auto"
    >
       <v-card
-          style="border: #0d47a1 solid"
           elevation="0"
           height="100%"
       >
