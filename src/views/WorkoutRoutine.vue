@@ -32,7 +32,7 @@
     </v-col>
     <v-col
         cols="auto"
-   >
+    >
       <v-card
           elevation="0"
           height="100%"
@@ -99,9 +99,9 @@
             icon="mdi-settings-helper"
         ></v-icon>
       </v-btn>
-
-
     </v-btn>
+
+
   </v-row>
   <v-row
       class="justify-center"
@@ -136,10 +136,23 @@ export default {
   name: "WorkoutRoutine"
   , data: () => ({
     nameList: ['롤', '플'],
+    testData: [''],
     buttons: ['빠른기록', '플릭 AI', '인기루틴'],
     order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅']
   })
   ,
+  methods: {
+    fetchData() {
+      this.axios.get('/api/list').then((rep) => {
+        console.log(rep)
+        this.testData = rep.data
+      })
+    }
+  }
+  ,
+  created() {
+    this.fetchData()
+  }
 }
 </script>
 

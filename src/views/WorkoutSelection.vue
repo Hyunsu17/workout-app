@@ -29,11 +29,14 @@
   </v-app-bar>
   <!-- 운동 부위 사진 -->
   <v-container
-      style="min-height: 30%;
+  >
+    <v-row
+        style="min-height: 30%;
     background-color: #03a9f4;
     position: fixed; z-index: 2;
 "
-  >
+    >
+    </v-row>
   </v-container>
 
   <!-- 운동 리스트 -->
