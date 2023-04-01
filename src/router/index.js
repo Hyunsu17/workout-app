@@ -5,6 +5,7 @@ import SettingView from "@/views/SettingView.vue"
 import WorkoutRoutine from "@/views/WorkoutRoutine.vue";
 import WorkoutSelection from "@/views/WorkoutSelection.vue"
 import WorkoutInfoView from "@/views/WorkoutInfoView.vue";
+import QuickRecordView from "@/views/QuickRecordView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +47,11 @@ const router = createRouter({
       path:'/workoutInfo',
       name:'WorkoutInfoView',
       component: WorkoutInfoView
+    },
+    {
+      path:'/quickRecord',
+      name:'QuickRecordView',
+      component: QuickRecordView
     }
   ]
 })
