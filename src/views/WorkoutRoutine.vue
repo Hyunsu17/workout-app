@@ -63,19 +63,34 @@
       no-gutters>
     <v-col
         class="mx-2"
-        v-for="button in buttons" :key="button"
     >
-      <router-link :to="button.url">
+      <router-link
+
+          to="/quickRecord">
       <v-btn
           class="text-black"
           height="100"
           block
       >
-        {{ button.name }}
+        빠른기록
+      </v-btn>
+      </router-link>
+    </v-col>
+    <v-col
+        class="mx-2"
+    >
+      <router-link to="/famousRoutine">
+      <v-btn
+          class="text-black"
+          height="100"
+          block
+      >
+        인기루틴
       </v-btn>
       </router-link>
     </v-col>
   </v-row>
+
   <v-row>
     <v-toolbar title="최근 수행 순"
                height="100"
@@ -325,13 +340,6 @@ export default {
   , data: () => ({
     nameList: ['롤', '플'],
     testData: [''],
-    buttons: [
-      {
-        name: '빠른기록', url: '/quickRecord'
-      },
-      {
-        name:'인기루틴', url: '/famousRoutine'
-      }],
     order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅']
   })
   ,
@@ -345,7 +353,7 @@ export default {
   }
   ,
   created() {
-    this.fetchData()
+    // this.fetchData()
   }
 }
 </script>
