@@ -53,7 +53,6 @@
 
   <v-card
       width="100%"
-      height="100px"
   >
     <v-row
         class="mb-2"
@@ -86,7 +85,7 @@
       </v-col>
 
       <v-col
-        cols="12"
+          cols="12"
       >
         <v-row
             class="mt-1"
@@ -105,8 +104,9 @@
           >
             <v-card-subtitle
                 class="text-h6 text-center font-weight-bold"
+                style="position: relative; right: 3%"
             >
-              렙
+              REP
             </v-card-subtitle>
           </v-col>
           <v-col
@@ -122,9 +122,46 @@
       </v-col>
 
       <v-col
-        cols="12"
+          class="mt-3"
+          cols="12"
       >
-        <v-row>
+        <v-row
+            style="width: 100%;"
+        >
+          <v-col
+              cols="4"
+          >
+            <v-card-subtitle
+                style="position: relative;"
+                class="text-center text-h3 pa-9"
+            >
+              1
+            </v-card-subtitle>
+
+          </v-col>
+          <v-col
+              cols="4"
+          >
+            <v-text-field
+                style="
+                position: relative;"
+                variant="underlined"
+            >
+
+            </v-text-field>
+
+          </v-col>
+          <v-col
+              cols="4"
+          >
+            <v-checkbox
+                style="
+                position: relative; left: 50%;bottom: -20%"
+            >
+
+            </v-checkbox>
+          </v-col>
+
 
         </v-row>
 
@@ -136,6 +173,7 @@
 
   <!--  운동 추가 운동 완료 버튼-->
   <v-row
+      class="mt-12"
       no-gutters
   >
     <v-col
