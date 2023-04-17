@@ -79,29 +79,35 @@
               cols="4"
           >
             <v-card-subtitle
-                class="text-center"
-            >
-              ssss
+
+                class="text-center text-h3  pa-7"
+                style="position: relative;
+">
+              100
             </v-card-subtitle>
 
           </v-col>
           <v-col
               cols="4"
           >
-            <v-text-field
-                variant="solo"
+            <v-card-subtitle
+                class="text-center text-h3  pa-7"
+                style="position: relative;"
             >
+              &nbsp;
+              {{ rep }}
+            </v-card-subtitle>
 
-            </v-text-field>
 
           </v-col>
           <v-col
               cols="4"
           >
-            <v-checkbox>
-
-            </v-checkbox>
-
+            <v-checkbox
+                class
+                style="font-size: 250%; position: relative;
+                left:50%; top:15%"
+            ></v-checkbox>
           </v-col>
 
 
@@ -116,7 +122,10 @@
 
 <script>
 export default {
-  name: "WorkoutDetailsView"
+  name: "WorkoutDetailsView",
+  data: () => ({
+    rep: 12
+  })
 }
 </script>
 
