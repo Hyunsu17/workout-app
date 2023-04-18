@@ -1,6 +1,6 @@
 <template>
+
   <v-card
-      width="100%"
   >
     <v-row
         class="mb-2"
@@ -8,7 +8,7 @@
     >
       <v-col
           cols="10"
-          sm="10"
+          sm="11"
           md="11"
       >
         <v-card-title
@@ -18,16 +18,15 @@
         </v-card-title>
       </v-col>
 
-      <v-col>
+      <v-col
+          style="background-color: #03a9f4;"
+      >
         <v-btn
-            block
+            style="position: relative; left:34%"
             elevation="0"
+            color="red"
+            icon="mdi-alpha-x"
         >
-          <v-icon
-              color="red"
-              icon="mdi-alpha-x"
-              size="300%"
-          ></v-icon>
         </v-btn>
 
       </v-col>
@@ -116,8 +115,9 @@
       </v-col>
 
     </v-row>
-
   </v-card>
+
+
 </template>
 
 <script>
