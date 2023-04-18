@@ -13,7 +13,7 @@
         <v-card-title
             class="text-h4"
         >
-          1. 바이씨클 크런치
+          {{ name }}
         </v-card-title>
       </v-col>
 
@@ -89,7 +89,7 @@
                 style="position: relative;"
             >
               &nbsp;
-              {{ reps }}
+              {{ record.reps }}
             </v-card-subtitle>
 
 
@@ -110,6 +110,7 @@
       </v-col>
 
     </v-row>
+
   </v-card>
 </template>
 
@@ -117,7 +118,8 @@
 export default {
   name: "RecordTable",
   props: {
-    reps: Array,
+    record: Object,
+    name: String
   }
 }
 </script>
