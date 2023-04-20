@@ -55,7 +55,7 @@ const router = createRouter({
       component: QuickRecordView
     },
     {
-      path:'/workoutDetail',
+      path:'/workoutDetail/:id',
       name:'workoutDetailsView',
       component: workoutDetailsView
     }

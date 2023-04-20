@@ -26,7 +26,6 @@ export default {
   name: "WorkoutInfoView",
   data() {
     return{
-      set
     }
   }
 }

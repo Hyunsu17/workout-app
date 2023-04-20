@@ -8,6 +8,7 @@
       >
         <v-icon
             size="400%"
+            color="black"
             style="position: relative; right: 10px"
         >
           mdi-chevron-left
@@ -40,13 +41,17 @@
   </v-container>
 
   <!-- 운동 리스트 -->
-  <v-btn
-      block
-      min-height="100px"
-      style="margin-top: 30%;"
-  >
-    머신 체스트 프레스
-  </v-btn>
+  <router-link to="/workoutDetail/:1">
+    <v-btn
+        class="text-black"
+        block
+        min-height="100px"
+        style="margin-top: 30%;"
+    >
+      머신 체스트 프레스
+    </v-btn>
+  </router-link>
+
   <v-btn
       v-for="data in workoutList" :key="data"
       block

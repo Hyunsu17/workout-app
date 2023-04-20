@@ -25,7 +25,6 @@
   </v-select>
 
   <v-row
-      style="background-color: #4086f4"
   >
     <v-col
         cols="9"
@@ -37,7 +36,6 @@
       ></v-select>
     </v-col>
     <v-col
-        style="background-color: red"
         cols="3"
     >
       <v-select
@@ -49,127 +47,12 @@
     </v-col>
   </v-row>
   <!--  운동 종류-->
-
-
-  <v-card
-      width="100%"
+  <record-card
+      :name="'name'"
+      :record="record"
   >
-    <v-row
-        class="mb-2"
-        no-gutters
-    >
-      <v-col
-          cols="10"
-          sm="10"
-          md="11"
-      >
-        <v-card-title
-            class="text-h4"
-        >
-          1. 바이씨클 크런치
-        </v-card-title>
-      </v-col>
 
-      <v-col>
-        <v-btn
-            block
-            elevation="0"
-        >
-          <v-icon
-              color="red"
-              icon="mdi-alpha-x"
-              size="300%"
-          ></v-icon>
-        </v-btn>
-
-      </v-col>
-
-      <v-col
-          cols="12"
-      >
-        <v-row
-            class="mt-1"
-        >
-          <v-col
-              cols="4"
-          >
-            <v-card-subtitle
-                class="text-h6 text-center font-weight-bold"
-            >
-              세트
-            </v-card-subtitle>
-          </v-col>
-          <v-col
-              cols="4"
-          >
-            <v-card-subtitle
-                class="text-h6 text-center font-weight-bold"
-                style="position: relative; right: 3%"
-            >
-              REP
-            </v-card-subtitle>
-          </v-col>
-          <v-col
-              cols="4"
-          >
-            <v-card-subtitle
-                class="text-h6 text-center font-weight-bold"
-            >
-              완료
-            </v-card-subtitle>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <v-col
-          class="mt-3"
-          cols="12"
-      >
-        <v-row
-            style="width: 100%;"
-        >
-          <v-col
-              cols="4"
-          >
-            <v-card-subtitle
-                style="position: relative;"
-                class="text-center text-h3 pa-9"
-            >
-              1
-            </v-card-subtitle>
-
-          </v-col>
-          <v-col
-              cols="4"
-          >
-            <v-text-field
-                style="
-                position: relative;"
-                variant="underlined"
-            >
-
-            </v-text-field>
-
-          </v-col>
-          <v-col
-              cols="4"
-          >
-            <v-checkbox
-                style="
-                position: relative; left: 50%;bottom: -20%"
-            >
-
-            </v-checkbox>
-          </v-col>
-
-
-        </v-row>
-
-      </v-col>
-
-    </v-row>
-
-  </v-card>
+  </record-card>
 
   <!--  운동 추가 운동 완료 버튼-->
   <v-row
@@ -212,9 +95,19 @@
 </template>
 
 <script>
+import RecordCard from "@/components/RecordCard.vue"
+
 export default {
   name: "QuickRecordView",
+  components: {RecordCard},
   data: () => ({
+    record: [
+      {reps: 10},
+      {reps: 10},
+      {reps: 10},
+      {reps: 10},
+    ]
+    ,
     select: {title: '자유운동'},
     items: [
       {title: '자유운동'},
