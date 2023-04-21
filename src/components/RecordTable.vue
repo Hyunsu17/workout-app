@@ -9,7 +9,7 @@
           class="text-center text-h3  pa-7"
           style="position: relative;
 ">
-        {{ idx }}
+        {{ idx+1 }}
       </v-card-subtitle>
 
     </v-col>

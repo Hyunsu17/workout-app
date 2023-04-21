@@ -51,8 +51,37 @@
       :name="'name'"
       :record="record"
   >
-
   </record-card>
+
+  <v-row
+      class="justify-center mx-auto mt-2">
+    <v-col
+        cols="5"
+    >
+      <v-btn
+          @click="addSet"
+          color="blue-darken-3"
+          width="100%"
+          height="200%"
+      >
+        세트추가
+      </v-btn>
+    </v-col>
+    <v-col
+        class="justify-center"
+        cols="5"
+    >
+      <v-btn
+          @click="removeLastSet"
+          color="red"
+          width="100%"
+          height="200%"
+      >
+        세트삭제
+      </v-btn>
+    </v-col>
+  </v-row>
+
 
   <!--  운동 추가 운동 완료 버튼-->
   <v-row
@@ -115,7 +144,15 @@ export default {
     ],
     requiredTime: Array.from({length: 120}, (v, i) => i + 1 + '분'),
     selectTime: '60분'
-  })
+  }),
+  methods: {
+    addSet() {
+      this.record.push({reps: 10})
+    },
+    removeLastSet(){
+      this.record.pop()
+    }
+  }
   ,
   props: {
     routineList: {

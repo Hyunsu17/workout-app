@@ -84,34 +84,6 @@
 
   </v-card>
 
-  <v-row
-      class="justify-center mx-auto mt-2"
-  >
-    <v-col
-        cols="5"
-    >
-      <v-btn
-          color="blue-darken-3"
-          width="100%"
-          height="200%"
-      >
-        세트추가
-      </v-btn>
-    </v-col>
-    <v-col
-        class="justify-center"
-        cols="5"
-    >
-      <v-btn
-          color="red"
-          width="100%"
-          height="200%"
-      >
-        세트삭제
-      </v-btn>
-    </v-col>
-  </v-row>
-
 </template>
 
 <script>
@@ -125,6 +97,17 @@ export default {
   },
   components: {
     RecordTable
+  },
+  computed: {
+    localParam: {
+      get: function () {
+        return this.record
+      },
+      set: function (record) {
+        this.$emit('', record)
+      }
+
+    }
   }
   , methods: {
     intermediate() {
