@@ -34,6 +34,7 @@ public class HttpController {
 	}
 	
 	//http://localhost:8080/http/post
+	//post 파라미터는 @RequestParam=> form or @RequestBody=> Json
 	@PostMapping("/http/post")
 	public String postTest(@RequestBody Member m) {
 		return "post요청 id:"+m.getId()+","+m.getUsername()+","+m.getPassword();
