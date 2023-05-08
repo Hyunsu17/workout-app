@@ -1,15 +1,17 @@
 package com.cos.blog.model;
 
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.List;
-
 
 @Data
 @NoArgsConstructor
@@ -46,7 +48,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role2; //원래 Enum을 쓰는게 좋다 => 도메인을 만들 수 있음 //admin, user, manager
-
 
     @CreationTimestamp //시간이 자동 입력
     private Timestamp createDate;
