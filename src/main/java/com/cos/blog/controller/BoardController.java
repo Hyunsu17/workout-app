@@ -15,30 +15,30 @@ import com.cos.blog.service.BoardService;
 @Controller //view return
 public class BoardController {
 
-	@Autowired
-	private BoardService boardService;
-	
-	@GetMapping({"","/"})
-	public String index(Model model,@PageableDefault(size=3,sort="id",direction=Sort.Direction.DESC) Pageable pageable) { //컨트롤러에서 세션을 어떻게 찾지?
-		model.addAttribute("boards",boardService.글목록(pageable));
-		return "index";
-	}
-	
-	@GetMapping("/board/saveForm")
-	public String saveForm() {
-		return "board/saveForm";
-	}
-	
-	@GetMapping("/board/{id}/updateForm")
-	public String updateForm(@PathVariable int id, Model model) {
-		model.addAttribute("board",boardService.글상세보기(id));
-		return "board/updateForm";
-	}
-	
-	@GetMapping("/board/{id}")
-	public String findById(@PathVariable int id, Model model) {
-		model.addAttribute("board",boardService.글상세보기(id));
-		
-		return "board/detail";
-	}
+//	@Autowired
+//	private BoardService boardService;
+//
+//	@GetMapping({"","/"})
+//	public String index(Model model,@PageableDefault(size=3,sort="id",direction=Sort.Direction.DESC) Pageable pageable) { //컨트롤러에서 세션을 어떻게 찾지?
+//		model.addAttribute("boards",boardService.글목록(pageable));
+//		return "index";
+//	}
+//
+//	@GetMapping("/board/saveForm")
+//	public String saveForm() {
+//		return "board/saveForm";
+//	}
+//
+//	@GetMapping("/board/{id}/updateForm")
+//	public String updateForm(@PathVariable int id, Model model) {
+//		model.addAttribute("board",boardService.글상세보기(id));
+//		return "board/updateForm";
+//	}
+//
+//	@GetMapping("/board/{id}")
+//	public String findById(@PathVariable int id, Model model) {
+//		model.addAttribute("board",boardService.글상세보기(id));
+//
+//		return "board/detail";
+//	}
 }

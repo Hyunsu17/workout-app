@@ -41,6 +41,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<WorkOutHistory> workOutHistoryList;
 
+
     //DB는 RoleType이란게 없다
     //@ColumnDefault("user")
     @Enumerated(EnumType.STRING)

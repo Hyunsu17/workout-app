@@ -1,11 +1,13 @@
 package com.cos.blog.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import javax.persistence.*;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "TB_WORKOUT_SET")
 public class WorkOutSet {

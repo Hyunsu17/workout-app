@@ -1,10 +1,12 @@
 package com.cos.blog.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.persistence.*;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name="TB_WORKOUT_ELEMENT")
 public class WorkOutElement {

@@ -1,11 +1,13 @@
 package com.cos.blog.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.persistence.*;
 
-@Builder
 @Entity
+@AllArgsConstructor
+@Builder
 @Table(name = "TB_WORKOUT_ROUTINE")
 public class Routine {
 
@@ -17,8 +19,9 @@ public class Routine {
     @Column(name = "ROUTINE_NM")
     private String name;
 
-    @OneToOne
-    private WorkOutHistory workOutHistory;
+    @ManyToOne
+    @JoinColumn(name = "USER_SQ")
+    private User user;
 
     protected Routine() {
 

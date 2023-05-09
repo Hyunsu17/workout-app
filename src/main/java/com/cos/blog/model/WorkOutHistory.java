@@ -1,5 +1,6 @@
 package com.cos.blog.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "TB_WORKOUT_HISTORY")
 public class WorkOutHistory {
