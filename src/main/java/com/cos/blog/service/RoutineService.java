@@ -19,4 +19,9 @@ public class RoutineService {
     public List<Routine> getRoutine(User user){
         return routineRepository.findAllByUser(user);
     }
+
+    public Routine getSpecificRoutineByName(User user, String name){
+        return routineRepository.findByUserAndName(user,name);
+    }
+
 }

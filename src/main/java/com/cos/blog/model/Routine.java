@@ -2,12 +2,16 @@ package com.cos.blog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @Builder
+@Getter
+@ToString
 @Table(name = "TB_WORKOUT_ROUTINE")
 public class Routine {
 

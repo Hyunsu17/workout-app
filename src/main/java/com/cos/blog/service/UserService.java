@@ -1,6 +1,7 @@
 package com.cos.blog.service;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +12,10 @@ import com.cos.blog.repository.UserRepository;
 
 //스프링이 컴포넌트 스캔을 통해 Bean에 등록해줌, .IOC를 해준다
 @Service
+@RequiredArgsConstructor
 public class UserService {
 //
-//	@Autowired
-//	private UserRepository userRepository;
+	private final UserRepository userRepository;
 //
 //	@Autowired
 //	private BCryptPasswordEncoder encoder;
@@ -55,16 +56,16 @@ public class UserService {
 //		//회원수정 함수 종료시 => 서비스종료시 => 트랜잭션 종료 => commit이 자동으로 된다.
 //		//영속화된 persistance 객체의 변화가 감지되면 더티체킹이 되어 update문을 날려줌
 //	}
-//
-//	@Transactional
-//	public User 회원찾기(String username) {
-//		System.out.println("**************회원찾기 log**********************");
-//		User user = userRepository.findByUsername(username).orElseGet(()->{
-//			System.out.println("**************회원찾기 실패**********************");
-//			return new User();
-//		});
-//		return user;
-//	}
+
+	@Transactional
+	public User 회원찾기(String username) {
+		System.out.println("**************회원찾기 log**********************");
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			System.out.println("**************회원찾기 실패**********************");
+			return new User();
+		});
+		return user;
+	}
 //
 //
 //	@Transactional(readOnly = true) //select 할 때 트랜잭션 시작, 서비스 종료시에 트랜잭션 종료(정합성)

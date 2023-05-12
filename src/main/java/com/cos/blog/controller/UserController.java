@@ -1,13 +1,17 @@
 package com.cos.blog.controller;
 
 
-
 import com.cos.blog.model.Routine;
 import com.cos.blog.model.User;
+import com.cos.blog.model.WorkOutElement;
 import com.cos.blog.service.RoutineService;
+import com.cos.blog.service.UserService;
+import com.cos.blog.service.WorkOutElementService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,16 +27,39 @@ import java.util.List;
 public class UserController {
 
     private final RoutineService routineService;
+    private final UserService userService;
+    private final WorkOutElementService workOutElementService;
 
     @PostMapping("/test")
-    public List<Routine> routineList(@RequestBody User user)
-    {
-        return routineService.getRoutine(user);
+    public List<Routine> routineList(@RequestBody User user) {
+        System.out.println("*************************************"+user.getUsername());
+        User findedUser = userService.회원찾기(user.getUsername());
+        for(Routine ro:routineService.getRoutine(findedUser)){
+            System.out.println(ro.getName());
+        }
+        return routineService.getRoutine(findedUser);
     }
+
     @PostMapping("/test2")
-    public User test2(@RequestBody User user)
-    {
+    public User test2(@RequestBody User user) {
+
         return user;
+    }
+
+    @PostMapping("/test3")
+    public List<WorkOutElement> test3(@RequestBody JsonNode saveObj){
+        ObjectMapper mapper = new ObjectMapper();
+        User user;
+        Routine routine;
+        try{
+            user = mapper.treeToValue(saveObj.get("user"),User.class);
+            routine = mapper.treeToValue(saveObj.get("routine"),Routine.class);
+        }catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        User findedUser = userService.회원찾기(user.getUsername());
+        Routine specificRoutine=routineService.getSpecificRoutineByName(findedUser,routine.getName());
+        return workOutElementService.getWorkOutElementByRoutine(specificRoutine);
     }
 
 }
