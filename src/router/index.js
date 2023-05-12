@@ -40,7 +40,7 @@ const router = createRouter({
       component: SettingView
     },
     {
-      path:'/workoutSelection',
+      path:'/workoutSelection/:name',
       name:'WorkoutSelection',
       component: WorkoutSelection
     },
@@ -55,7 +55,7 @@ const router = createRouter({
       component: QuickRecordView
     },
     {
-      path:'/workoutDetail/:id',
+      path:'/workoutDetail/:name/:id',
       name:'workoutDetailsView',
       component: workoutDetailsView
     }

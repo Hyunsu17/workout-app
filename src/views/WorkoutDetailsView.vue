@@ -9,7 +9,7 @@
       elevation="0"
   >
     <div class="d-flex">
-      <router-link to="/workoutSelection">
+      <router-link :to="'/workoutSelection/'+$route.params.name">
         <v-btn
             elevation="0"
             color="red"

@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    elevation="0"
+      elevation="0"
   >
     <v-btn
         rounded="pill"
@@ -8,8 +8,9 @@
     >
     </v-btn>
     <v-app-bar-title
-      class="text-center font-weight-bold"
-    >나의 운동일지</v-app-bar-title>
+        class="text-center font-weight-bold"
+    >나의 운동일지
+    </v-app-bar-title>
     <v-app-bar-nav-icon
     ></v-app-bar-nav-icon>
   </v-app-bar>
@@ -67,26 +68,26 @@
       <router-link
 
           to="/quickRecord">
-      <v-btn
-          class="text-black"
-          height="100"
-          block
-      >
-        빠른기록
-      </v-btn>
+        <v-btn
+            class="text-black"
+            height="100"
+            block
+        >
+          빠른기록
+        </v-btn>
       </router-link>
     </v-col>
     <v-col
         class="mx-2"
     >
       <router-link to="/famousRoutine">
-      <v-btn
-          class="text-black"
-          height="100"
-          block
-      >
-        인기루틴
-      </v-btn>
+        <v-btn
+            class="text-black"
+            height="100"
+            block
+        >
+          인기루틴
+        </v-btn>
       </router-link>
     </v-col>
   </v-row>
@@ -107,198 +108,32 @@
 
     </v-toolbar>
   </v-row>
+  <v-row
+      v-for="(item, index) in testData" :key="index"
+      class="mx-2"
+      style="margin-top:80px;"
+  >
+    <router-link :to="'/workoutSelection/'+item.name"
+                 style="width: 100%;"
+    >
+      <v-btn
+          class="text-black"
+          style="background-color:skyblue; width: 100%; height:200%">
+        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
+        {{item.name}}
+        <v-btn
+            style="position: absolute; left: 100% ; transform: translateX(-110%)"
+            elevation="0">
+          <v-icon
+              size="50"
+              class="mt-n11"
+              icon="mdi-settings-helper"
+          ></v-icon>
+        </v-btn>
+      </v-btn>
+    </router-link>
+  </v-row>
 
-  <v-row
-      class="mx-2 mt-5"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
-  <v-row
-      class="mx-2"
-      style="margin-top:80px;"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
-  <v-row
-      class="mx-2"
-      style="margin-top:80px;"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
-  <v-row
-      class="mx-2"
-      style="margin-top:80px;"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
-  <v-row
-      class="mx-2"
-      style="margin-top:80px;"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
-  <v-row
-      class="mx-2"
-      style="margin-top:80px;"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
-  <v-row
-      class="mx-2"
-      style="margin-top:80px;"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
-  <v-row
-      class="mx-2"
-      style="margin-top:80px; margin-bottom: 80px"
-  >
-    <router-link to="/workoutSelection"
-                 style="width: 100%;"
-    >
-      <v-btn
-          class="text-black"
-          style="background-color:skyblue; width: 100%; height:200%">
-        <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        핼스 초보 무분할 루틴
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
-      </v-btn>
-    </router-link>
-  </v-row>
 
   <v-row
       class="justify-center mx-auto"
@@ -345,7 +180,10 @@ export default {
   ,
   methods: {
     fetchData() {
-      this.axios.get('/api/list').then((rep) => {
+      this.axios.post('/api/test', {
+        username: 'test'
+      }).
+      then((rep) => {
         console.log(rep)
         this.testData = rep.data
       })
@@ -353,7 +191,7 @@ export default {
   }
   ,
   created() {
-    // this.fetchData()
+    this.fetchData()
   }
 }
 </script>

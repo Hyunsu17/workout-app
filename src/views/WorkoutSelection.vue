@@ -17,7 +17,7 @@
     </router-link>
     <v-app-bar-title
         class="text-center"
-    >?Title?
+    >{{ $route.params.name }}
     </v-app-bar-title>
     <v-btn>
       <v-icon
@@ -41,7 +41,7 @@
   </v-container>
 
   <!-- 운동 리스트 -->
-  <router-link to="/workoutDetail/:1">
+  <router-link :to="'/workoutDetail/'+$route.params.name+'/1'">
     <v-btn
         class="text-black"
         block
@@ -69,6 +69,22 @@ export default {
     return {
       workoutList: ['바벨스쿼트', '랫풀다운', '바벨 숄더 프레스', '케이블 트라이셉 푸시다운', '바벨 바이셉 컬', '행잉 레그레이즈']
     }
+  },
+  methods: {
+    fetchData() {
+      this.axios.post('/api/test3', {
+        username: 'test',
+
+      }).
+      then((rep) => {
+        console.log(rep)
+        this.testData = rep.data
+      })
+    }
+  }
+  ,
+  created() {
+  //  this.fetchData()
   }
 }
 </script>
