@@ -55,7 +55,6 @@
   <router-link
       v-for="(data,index) in testData" :key="data"
       :to="'/workoutDetail/'+$route.params.name+'/'+index">
-
     <v-btn
         block
         min-height="100px"
@@ -65,21 +64,29 @@
   </router-link>
 
   <v-btn
-    @click=""
+      @click="fetchData2"
   >
     시작
   </v-btn>
 </template>
 
 <script>
+import {mapStores} from "pinia";
+import {useRecordStore} from "@/stores/counter";
+
 export default {
   name: "WorkoutSelection",
   data() {
     return {
       testData: [],
+      testData2: [],
       workoutList: ['바벨스쿼트', '랫풀다운', '바벨 숄더 프레스', '케이블 트라이셉 푸시다운', '바벨 바이셉 컬', '행잉 레그레이즈']
     }
   },
+  computed: {
+    ...mapStores(useRecordStore)
+  }
+  ,
   methods: {
     fetchData() {
       this.axios.post('/api/test3', {
@@ -87,28 +94,35 @@ export default {
           username: 'test'
         },
         routine: {
-          name: "초보"
+          name: "초보자용입문루틴"
         }
       }).then((rep) => {
         console.log(rep)
+        console.log(this.recordStore.record)
         this.testData = rep.data
       })
+    },
+    fetchData2() {
+      this.axios.post('/api/test4', {
+        user: {
+          username: 'test'
+        },
+        routine: {
+          name: "초보자용입문루틴"
+        }
+      }).then((rep) => {
+        console.log(rep)
+        this.testData2 = rep.data
+      })
+    },
+    mappingSetAndWorkout(setArray, workoutName) {
+      for (let i = 0; i < setArray.length; i++) {
+        if (workoutName === setArray[i].workoutElement.name) {
+          return setArray[i]
+        }
+      }
     }
   },
-  fetchData2() {
-    this.axios.post('/api/test3', {
-      user: {
-        username: 'test'
-      },
-      routine: {
-        name: "초보"
-      }
-    }).then((rep) => {
-      console.log(rep)
-      this.testData = rep.data
-    })
-  }
-  ,
   created() {
     this.fetchData()
   }
