@@ -52,14 +52,23 @@
     </v-btn>
   </router-link>
 
-  <v-btn
-      v-for="data in workoutList" :key="data"
-      block
-      min-height="100px"
-  >
-    {{ data }}
-  </v-btn>
+  <router-link
+      v-for="(data,index) in testData" :key="data"
+      :to="'/workoutDetail/'+$route.params.name+'/'+index">
 
+    <v-btn
+        block
+        min-height="100px"
+    >
+      {{ data.name }}
+    </v-btn>
+  </router-link>
+
+  <v-btn
+    @click=""
+  >
+    시작
+  </v-btn>
 </template>
 
 <script>
@@ -67,24 +76,41 @@ export default {
   name: "WorkoutSelection",
   data() {
     return {
+      testData: [],
       workoutList: ['바벨스쿼트', '랫풀다운', '바벨 숄더 프레스', '케이블 트라이셉 푸시다운', '바벨 바이셉 컬', '행잉 레그레이즈']
     }
   },
   methods: {
     fetchData() {
       this.axios.post('/api/test3', {
-        username: 'test',
-
-      }).
-      then((rep) => {
+        user: {
+          username: 'test'
+        },
+        routine: {
+          name: "초보"
+        }
+      }).then((rep) => {
         console.log(rep)
         this.testData = rep.data
       })
     }
+  },
+  fetchData2() {
+    this.axios.post('/api/test3', {
+      user: {
+        username: 'test'
+      },
+      routine: {
+        name: "초보"
+      }
+    }).then((rep) => {
+      console.log(rep)
+      this.testData = rep.data
+    })
   }
   ,
   created() {
-  //  this.fetchData()
+    this.fetchData()
   }
 }
 </script>
