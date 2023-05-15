@@ -4,6 +4,7 @@ package com.cos.blog.controller;
 import com.cos.blog.model.Routine;
 import com.cos.blog.model.User;
 import com.cos.blog.model.WorkOutElement;
+import com.cos.blog.model.WorkOutSet;
 import com.cos.blog.service.RoutineService;
 import com.cos.blog.service.UserService;
 import com.cos.blog.service.WorkOutElementService;
@@ -57,9 +58,14 @@ public class UserController {
         }catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        User findedUser = userService.회원찾기(user.getUsername());
-        Routine specificRoutine=routineService.getSpecificRoutineByName(findedUser,routine.getName());
+        User foundUser = userService.회원찾기(user.getUsername());
+        Routine specificRoutine=routineService.getSpecificRoutineByName(foundUser,routine.getName());
         return workOutElementService.getWorkOutElementByRoutine(specificRoutine);
+    }
+
+    @PostMapping("/test4")
+    public List<WorkOutSet> test4(@RequestBody JsonNode saveObj){
+
     }
 
 }

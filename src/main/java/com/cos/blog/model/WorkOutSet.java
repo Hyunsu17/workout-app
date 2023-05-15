@@ -2,6 +2,7 @@ package com.cos.blog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @Entity
+@Getter
 @Table(name = "TB_WORKOUT_SET")
 public class WorkOutSet {
 
