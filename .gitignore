@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+## Spring boot private file ##
+/src/main/resources/application.yml
+/src/main/resources/application-oauth.yml

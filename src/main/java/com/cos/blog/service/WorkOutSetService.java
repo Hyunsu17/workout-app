@@ -19,14 +19,16 @@ public class WorkOutSetService {
 
     private final WorkOutElementRepository workOutElementRepository;
 
-    public List<WorkOutSet> findAllSetByWorkOutElement(WorkOutElement workOutElement) {
+    private List<WorkOutSet> findAllSetByWorkOutElement(WorkOutElement workOutElement) {
         return workOutSetRepository.findAllByWorkOutElement(workOutElement);
     }
     public List<List<WorkOutSet>> findAllSetByRoutine(Routine routine){
         List<WorkOutElement> workOutElementsList = workOutElementRepository.findByRoutine(routine);
         List<List<WorkOutSet>> retList = new ArrayList<>();
         for(WorkOutElement idxWkElm: workOutElementsList){
-            findAllSetByWorkOutElement(idxWkElm);
+            List<WorkOutSet> workOutSetList = findAllSetByWorkOutElement(idxWkElm);
+            retList.add(workOutSetList);
         }
+        return retList;
     }
 }
