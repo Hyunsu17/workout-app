@@ -94,6 +94,8 @@ import RecordCard from "@/components/RecordCard.vue";
 export default {
   name: "WorkoutDetailsView",
   computed: {},
+  props: ['SetData']
+  ,
   components: {RecordCard},
   data: () => ({
     timer: null,
@@ -106,6 +108,9 @@ export default {
       {reps: 10},
     ]
   }),
+  created() {
+    console.log(this.SetData)
+  },
   methods: {
     setBreakTime() {
       if (this.timer != null) {

@@ -54,11 +54,12 @@
 
   <router-link
       v-for="(data,index) in testData" :key="data"
-      :to="'/workoutDetail/'+$route.params.name+'/'+index">
+      :to="'/workoutDetail/'+$route.params.name+'/'+index+'/'+this.getData2(index)">
     <v-btn
         block
         min-height="100px"
     >
+      {{ index }}
       {{ data.name }}
     </v-btn>
   </router-link>
@@ -84,17 +85,33 @@ export default {
     }
   },
   computed: {
-    ...mapStores(useRecordStore)
+    ...mapStores(useRecordStore),
+
   }
   ,
   methods: {
+    getData2(index) {
+      let data = this.recordStore.wkSetData
+      console.log(data.data)
+      let setDto = function (_id, _reps, _status, _weight) {
+        this.reps = _reps
+        this.status = _status
+        this.id = _id
+        this.weight = _weight
+      }
+      let arr = []
+      for (let i = 0; i < data.data[index].length; i++) {
+        arr.push(new setDto(data.data[index][i].id, data.data[index][i].reps, data.data[index][i].status, data.data[index][i].weight))
+      }
+      return JSON.stringify(arr)
+    },
     fetchData() {
       this.axios.post('/api/test3', {
         user: {
           username: 'test'
         },
         routine: {
-          name: "초보자용입문루틴"
+          name: "초보"
         }
       }).then((rep) => {
         console.log(rep)
@@ -108,11 +125,13 @@ export default {
           username: 'test'
         },
         routine: {
-          name: "초보자용입문루틴"
+          name: "초보"
         }
+      }).catch((error) => {
+        console.log(error)
       }).then((rep) => {
         console.log(rep)
-        this.testData2 = rep.data
+        this.recordStore.setData(rep)
       })
     },
     mappingSetAndWorkout(setArray, workoutName) {
@@ -125,6 +144,7 @@ export default {
   },
   created() {
     this.fetchData()
+    this.fetchData2()
   }
 }
 </script>
