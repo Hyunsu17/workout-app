@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useRecordStore = defineStore('record', {
   state: () => ({
-    record:['hello'],
+    routineName:'',
     wkSetData: null
   }),
   actions: {

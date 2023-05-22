@@ -98,6 +98,9 @@ export default {
   components: {
     RecordTable
   },
+  created() {
+  console.log(this.record)
+    },
   computed: {
     localParam: {
       get: function () {

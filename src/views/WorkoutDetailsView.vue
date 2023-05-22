@@ -109,7 +109,8 @@ export default {
     ]
   }),
   created() {
-    console.log(this.SetData)
+    console.log(typeof (this.SetData))
+    this.record = JSON.parse(this.SetData)
   },
   methods: {
     setBreakTime() {

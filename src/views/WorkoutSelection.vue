@@ -41,7 +41,7 @@
   </v-container>
 
   <!-- 운동 리스트 -->
-  <router-link :to="'/workoutDetail/'+$route.params.name+'/1'">
+  <router-link :to="'/workoutDetail/'+this.name+'/1'">
     <v-btn
         class="text-black"
         block
@@ -54,7 +54,7 @@
 
   <router-link
       v-for="(data,index) in testData" :key="data"
-      :to="'/workoutDetail/'+$route.params.name+'/'+index+'/'+this.getData2(index)">
+      :to="'/workoutDetail/'+this.name+'/'+index+'/'+this.getData2(index)">
     <v-btn
         block
         min-height="100px"
@@ -77,11 +77,12 @@ import {useRecordStore} from "@/stores/counter";
 
 export default {
   name: "WorkoutSelection",
+  props: ['name'],
   data() {
     return {
       testData: [],
       testData2: [],
-      workoutList: ['바벨스쿼트', '랫풀다운', '바벨 숄더 프레스', '케이블 트라이셉 푸시다운', '바벨 바이셉 컬', '행잉 레그레이즈']
+      startCheck: false
     }
   },
   computed: {
@@ -91,8 +92,8 @@ export default {
   ,
   methods: {
     getData2(index) {
-      let data = this.recordStore.wkSetData
-      console.log(data.data)
+      const data = this.recordStore.getData
+      console.log(this.recordStore.getData)
       let setDto = function (_id, _reps, _status, _weight) {
         this.reps = _reps
         this.status = _status
@@ -115,8 +116,7 @@ export default {
         }
       }).then((rep) => {
         console.log(rep)
-        console.log(this.recordStore.record)
-        this.testData = rep.data
+        return rep.data
       })
     },
     fetchData2() {
@@ -131,7 +131,7 @@ export default {
         console.log(error)
       }).then((rep) => {
         console.log(rep)
-        this.recordStore.setData(rep)
+        return rep
       })
     },
     mappingSetAndWorkout(setArray, workoutName) {
@@ -143,8 +143,9 @@ export default {
     }
   },
   created() {
-    this.fetchData()
-    this.fetchData2()
+    if(this.startCheck) this.testData = this.fetchData()
+    if(this.startCheck) this.recordStore.setData(this.fetchData2())
+    console.log("created! workout Selection")
   }
 }
 </script>
