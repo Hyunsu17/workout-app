@@ -29,9 +29,24 @@
 
 <script>
 
+import {mapActions, mapWritableState} from "pinia";
+import {useRecordStore} from "@/stores/counter";
+
 export default {
   name: 'App',
-
+  created() {
+    this.getRoutine()
+  },
+  computed: {
+    ...mapWritableState(useRecordStore, ['workOutData'])
+  },
+  methods: {
+    ...mapActions(useRecordStore, ['postCall']),
+    getRoutine() {
+      this.workOutData = this.postCall('/api/test', {username: 'test'})
+      console.log(this.workOutData)
+    }
+  },
   data: () => ({
     links: {
       요약: 'mdi-poll',
@@ -60,6 +75,7 @@ export default {
 .v-btn {
   font-family: BMdohyeon, Serif;
 }
+
 a {
   text-decoration: none;
 }

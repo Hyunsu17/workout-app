@@ -59,13 +59,12 @@
         block
         min-height="100px"
     >
-      {{ index }}
       {{ data.name }}
     </v-btn>
   </router-link>
 
   <v-btn
-      @click="fetchData2"
+      @click="startWorkout"
   >
     시작
   </v-btn>
@@ -93,7 +92,6 @@ export default {
   methods: {
     getData2(index) {
       const data = this.recordStore.getData
-      console.log(this.recordStore.getData)
       let setDto = function (_id, _reps, _status, _weight) {
         this.reps = _reps
         this.status = _status
@@ -101,37 +99,45 @@ export default {
         this.weight = _weight
       }
       let arr = []
-      for (let i = 0; i < data.data[index].length; i++) {
-        arr.push(new setDto(data.data[index][i].id, data.data[index][i].reps, data.data[index][i].status, data.data[index][i].weight))
+      for (let i = 0; i < data[index].length; i++) {
+        arr.push(new setDto(data[index][i].id, data[index][i].reps, data[index][i].status, data[index][i].weight))
       }
       return JSON.stringify(arr)
     },
-    fetchData() {
+    fetchData(name) {
       this.axios.post('/api/test3', {
         user: {
           username: 'test'
         },
         routine: {
-          name: "초보"
+          name: name
         }
       }).then((rep) => {
-        console.log(rep)
-        return rep.data
+        this.testData = rep.data
       })
     },
     fetchData2() {
+      this.recordStore.postCall('/api/test4',
+          {
+        user: {
+          username: 'test'
+        },
+        routine: {
+          name: "초보자용입문루틴"
+        }
+      })
+
       this.axios.post('/api/test4', {
         user: {
           username: 'test'
         },
         routine: {
-          name: "초보"
+          name: "초보자용입문루틴"
         }
       }).catch((error) => {
         console.log(error)
       }).then((rep) => {
-        console.log(rep)
-        return rep
+        this.recordStore.setData(rep.data)
       })
     },
     mappingSetAndWorkout(setArray, workoutName) {
@@ -140,12 +146,23 @@ export default {
           return setArray[i]
         }
       }
+    },
+    startWorkout(){
+      this.startCheck=true
     }
   },
   created() {
-    if(this.startCheck) this.testData = this.fetchData()
-    if(this.startCheck) this.recordStore.setData(this.fetchData2())
-    console.log("created! workout Selection")
+    console.log(this.name)
+    this.$watch(
+        () => this.name,
+        () => {
+          this.fetchData(this.name)
+        },
+        {immediate: true}
+    )
+    if (!this.startCheck) {
+      this.fetchData2()
+    }
   }
 }
 </script>
