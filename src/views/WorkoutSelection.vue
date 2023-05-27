@@ -123,7 +123,7 @@ export default {
           username: 'test'
         },
         routine: {
-          name: "초보자용입문루틴"
+          name: "초보"
         }
       })
 
@@ -132,7 +132,7 @@ export default {
           username: 'test'
         },
         routine: {
-          name: "초보자용입문루틴"
+          name: "초보"
         }
       }).catch((error) => {
         console.log(error)

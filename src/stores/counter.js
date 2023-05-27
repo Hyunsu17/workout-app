@@ -1,4 +1,5 @@
 import {defineStore} from 'pinia'
+import axios from "axios"
 
 export const useRecordStore = defineStore('record', {
     state: () => ({
@@ -10,14 +11,14 @@ export const useRecordStore = defineStore('record', {
         setData(data) {
             this.wkSetData = data
         },
-        setWorkoutData(data){
+        setWorkoutData(data) {
             this.workOutData = data
         }
         ,
         postCall(url, params) {
-            this.axios.post(url, params
+            return axios.post(url, params
             ).catch((error) => {
-                return error
+                console.log(error)
             }).then((rep) => {
                 return rep
             })

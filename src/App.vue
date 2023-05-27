@@ -34,7 +34,7 @@ import {useRecordStore} from "@/stores/counter";
 
 export default {
   name: 'App',
-  created() {
+  mounted() {
     this.getRoutine()
   },
   computed: {
@@ -43,8 +43,10 @@ export default {
   methods: {
     ...mapActions(useRecordStore, ['postCall']),
     getRoutine() {
-      this.workOutData = this.postCall('/api/test', {username: 'test'})
-      console.log(this.workOutData)
+      this.postCall('/api/test',{username:'test'}).then((rep)=>{
+        console.log(rep)
+        if(rep.status ===200) this.workOutData = rep.data
+      })
     }
   },
   data: () => ({

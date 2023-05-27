@@ -170,28 +170,27 @@
 </template>
 
 <script>
+import {mapState} from "pinia";
+import {useRecordStore} from "@/stores/counter";
+
 export default {
   name: "WorkoutRoutine"
   , data: () => ({
     nameList: ['롤', '플'],
     testData: [''],
     order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅']
-  })
-  ,
+  }),
+  computed:{
+    ...mapState(useRecordStore, ['workOutData'])
+  },
   methods: {
-    fetchData() {
-      this.axios.post('/api/test', {
-        username: 'test'
-      }).
-      then((rep) => {
-        console.log(rep)
-        this.testData = rep.data
-      })
+    initRoutine(){
+      console.log(this.workOutData)
+      if(this.workOutData) this.testData = this.workOutData
     }
-  }
-  ,
+  },
   created() {
-    this.fetchData()
+    this.initRoutine()
   }
 }
 </script>
