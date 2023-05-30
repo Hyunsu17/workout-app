@@ -113,14 +113,14 @@
       class="mx-2"
       style="margin-top:80px;"
   >
-    <router-link :to="'/workoutSelection/'+item.name"
+    <router-link :to="'/workoutSelection/'+item.routineName"
                  style="width: 100%;"
     >
       <v-btn
           class="text-black"
           style="background-color:skyblue; width: 100%; height:200%">
         <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        {{item.name}}
+        {{item.routineName}}
         <v-btn
             style="position: absolute; left: 100% ; transform: translateX(-110%)"
             elevation="0">
@@ -181,12 +181,11 @@ export default {
     order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅']
   }),
   computed:{
-    ...mapState(useRecordStore, ['workOutData'])
+    ...mapState(useRecordStore, ['WKData'])
   },
   methods: {
     initRoutine(){
-      console.log(this.workOutData)
-      if(this.workOutData) this.testData = this.workOutData
+      if(this.WKData) this.testData = this.WKData
     }
   },
   created() {

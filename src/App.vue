@@ -29,8 +29,9 @@
 
 <script>
 
-import {mapActions, mapWritableState} from "pinia";
+import {mapActions, mapState} from "pinia";
 import {useRecordStore} from "@/stores/counter";
+import WKClass from "@/common/WKClass";
 
 export default {
   name: 'App',
@@ -38,16 +39,18 @@ export default {
     this.getRoutine()
   },
   computed: {
-    ...mapWritableState(useRecordStore, ['workOutData'])
+    ...mapState(useRecordStore, ['WKData'])
   },
   methods: {
-    ...mapActions(useRecordStore, ['postCall']),
+    ...mapActions(useRecordStore, ['postCall', 'pushToWorkoutData']),
     getRoutine() {
-      this.postCall('/api/test',{username:'test'}).then((rep)=>{
-        console.log(rep)
-        if(rep.status ===200) this.workOutData = rep.data
+      this.postCall('/api/test', {username: 'test'}).then((rep) => {
+        if (rep.status === 200) {
+          for (let i = 0; i < rep.data.length; i++) this.pushToWorkoutData(new WKClass(rep.data[i].name))
+          console.log(this.WKData)
+        }
       })
-    }
+    },
   },
   data: () => ({
     links: {

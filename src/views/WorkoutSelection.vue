@@ -71,8 +71,9 @@
 </template>
 
 <script>
-import {mapStores} from "pinia";
+import {mapActions, mapState, mapStores} from "pinia";
 import {useRecordStore} from "@/stores/counter";
+import WKSetData from "@/common/WKSetData";
 
 export default {
   name: "WorkoutSelection",
@@ -86,12 +87,13 @@ export default {
   },
   computed: {
     ...mapStores(useRecordStore),
-
+    ...mapState(useRecordStore, ['getWKDetailData', 'getWKData'])
   }
   ,
   methods: {
+    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData']),
     getData2(index) {
-      const data = this.recordStore.getData
+      const data = this.getWKDetailData
       let setDto = function (_id, _reps, _status, _weight) {
         this.reps = _reps
         this.status = _status
@@ -104,64 +106,66 @@ export default {
       }
       return JSON.stringify(arr)
     },
-    fetchData(name) {
-      this.axios.post('/api/test3', {
+    fetchWKData(name, WKsetData) {
+      const params = {
         user: {
           username: 'test'
         },
         routine: {
           name: name
         }
-      }).then((rep) => {
-        this.testData = rep.data
-      })
-    },
-    fetchData2() {
-      this.recordStore.postCall('/api/test4',
-          {
-        user: {
-          username: 'test'
-        },
-        routine: {
-          name: "초보"
-        }
-      })
-
-      this.axios.post('/api/test4', {
-        user: {
-          username: 'test'
-        },
-        routine: {
-          name: "초보"
-        }
-      }).catch((error) => {
+      }
+      return this.postCall('/api/test3', params).catch((error) => {
         console.log(error)
       }).then((rep) => {
-        this.recordStore.setData(rep.data)
+        console.log(rep)
+        if (rep.status == 200) return this.parseToWKData(rep, WKsetData)
       })
     },
-    mappingSetAndWorkout(setArray, workoutName) {
-      for (let i = 0; i < setArray.length; i++) {
-        if (workoutName === setArray[i].workoutElement.name) {
-          return setArray[i]
+    parseToWKData(rep) {
+      const retObject = []
+      for (let i = 0; rep.data.length; i++) retObject.push({name: rep.data[i].name})
+    },
+    fetchWKDetailData(name) {
+      const params = {
+        user: {
+          username: 'test'
+        },
+        routine: {
+          name: name
         }
       }
+      return this.postCall('/api/test4',
+          params).catch((error) => {
+        console.log(error)
+      }).then((rep) => {
+        console.log(rep)
+        if (rep.status == 200) return this.parseToWKSetData(rep)
+      })
     },
-    startWorkout(){
-      this.startCheck=true
+    parseToWKSetData(rep) {
+      let retObject = []
+      for (let i = 0; rep.data.length; i++) {
+        retObject.push(new WKSetData(rep.data[i].reps, rep.data[i].status, rep.data.weight))
+      }
+      return retObject
+    },
+    startWorkout() {
+      this.startCheck = true
     }
   },
   created() {
     console.log(this.name)
-    this.$watch(
-        () => this.name,
-        () => {
-          this.fetchData(this.name)
-        },
-        {immediate: true}
-    )
     if (!this.startCheck) {
-      this.fetchData2()
+      this.fetchWKDetailData(this.name)
+          .then((WKDetailData) => {
+            this.fetchWKData(this.name)
+                .then((WKData) => {
+                  for (let i = 0; WKData.length; i++) {
+                    this.getWKData[i].addToList(WKData[i].name,WKDetailData[i])
+                  }
+                })
+          })
     }
   }
 }

@@ -3,18 +3,16 @@ import axios from "axios"
 
 export const useRecordStore = defineStore('record', {
     state: () => ({
-        routineName: '',
-        workOutData: [],
-        wkSetData: null
+        WKData: [],
+        WKSetData: null
     }),
     actions: {
-        setData(data) {
-            this.wkSetData = data
+        setWkDetailData(data) {
+            this.WKSetData = data
         },
-        setWorkoutData(data) {
-            this.workOutData = data
-        }
-        ,
+        pushToWorkoutData(data) {
+            this.WKData.push(data)
+        },
         postCall(url, params) {
             return axios.post(url, params
             ).catch((error) => {
@@ -22,12 +20,21 @@ export const useRecordStore = defineStore('record', {
             }).then((rep) => {
                 return rep
             })
+        },
+        hasWkListData(name) {
+            for (let i = 0; this.WKData.length; i++) {
+                if (this.WKData[i].routineName === name) return true
+            }
+            return false
         }
     }
     ,
     getters: {
-        getData(state) {
-            return state.wkSetData
+        getWKDetailData(state) {
+            return state.WKSetData
+        },
+        getWKData(state){
+            return state.WKData
         }
     }
 })
