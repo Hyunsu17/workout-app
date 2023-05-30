@@ -26,14 +26,26 @@ export const useRecordStore = defineStore('record', {
                 if (this.WKData[i].routineName === name) return true
             }
             return false
+        },
+        addToWKList(_idx, _name, _data) {
+            this.WKData[_idx].workoutList.push({workoutName: _name, workoutSetData: _data})
+        },
+        getWKIdxByName(_name){
+            for(let i=0;i<this.WKData.length;i++){
+                if(_name === this.WKData[i].routineName){
+                    return i
+                }
+            }
+            return false
         }
+
     }
     ,
     getters: {
         getWKDetailData(state) {
             return state.WKSetData
         },
-        getWKData(state){
+        getWKData(state) {
             return state.WKData
         }
     }

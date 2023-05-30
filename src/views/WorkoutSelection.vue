@@ -53,13 +53,13 @@
   </router-link>
 
   <router-link
-      v-for="(data,index) in testData" :key="data"
-      :to="'/workoutDetail/'+this.name+'/'+index+'/'+this.getData2(index)">
+      v-for="(data,index) in WKNameList" :key="data"
+      :to="'/workoutDetail/'+this.name+'/'+index+'/'">
     <v-btn
         block
         min-height="100px"
     >
-      {{ data.name }}
+      {{ data }}
     </v-btn>
   </router-link>
 
@@ -80,7 +80,7 @@ export default {
   props: ['name'],
   data() {
     return {
-      testData: [],
+      WKNameList: [],
       testData2: [],
       startCheck: false
     }
@@ -91,7 +91,7 @@ export default {
   }
   ,
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData']),
+    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getWKIdxByName']),
     getData2(index) {
       const data = this.getWKDetailData
       let setDto = function (_id, _reps, _status, _weight) {
@@ -124,7 +124,7 @@ export default {
     },
     parseToWKData(rep) {
       const retObject = []
-      for (let i = 0; i< rep.data.length; i++) retObject.push({name: rep.data[i].name})
+      for (let i = 0; i < rep.data.length; i++) retObject.push({name: rep.data[i].name})
       return retObject
     },
     fetchWKDetailData(name) {
@@ -154,28 +154,36 @@ export default {
         }
         retObject.push(arrObject)
       }
-      console.log(retObject)
       return retObject
     },
     startWorkout() {
       this.startCheck = true
+    },
+    initValue(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.WKNameList.push(data[i].workoutName)
+      }
     }
   },
   created() {
-    console.log(this.name)
     if (!this.startCheck) {
       this.fetchWKDetailData(this.name)
           .then((WKDetailData) => {
             this.fetchWKData(this.name)
                 .then((WKData) => {
-                  console.log(WKData)
-                  console.log(WKDetailData)
-                  console.log(this.getWKData)
-                  for (let i = 0; WKData.length; i++) {
-                    this.getWKData[i].addToList(WKData[i].name, WKDetailData[i])
+                  for (let i = 0; i < WKData.length; i++) {
+                    this.addToWKList(this.getWKIdxByName(this.name), WKData[i].name, WKDetailData[i])
                   }
+                  console.log('1')
                 })
+                .then(() => {
+              console.log('2')
+              console.log(this.getWKData[this.getWKIdxByName(this.name)].workoutList)
+              this.initValue(this.getWKData[this.getWKIdxByName(this.name)].workoutList)
+              console.log(this.WKNameList)
+            })
           })
+
     }
   }
 }
