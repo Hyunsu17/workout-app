@@ -124,7 +124,8 @@ export default {
     },
     parseToWKData(rep) {
       const retObject = []
-      for (let i = 0; rep.data.length; i++) retObject.push({name: rep.data[i].name})
+      for (let i = 0; i< rep.data.length; i++) retObject.push({name: rep.data[i].name})
+      return retObject
     },
     fetchWKDetailData(name) {
       const params = {
@@ -144,10 +145,16 @@ export default {
       })
     },
     parseToWKSetData(rep) {
-      let retObject = []
-      for (let i = 0; rep.data.length; i++) {
-        retObject.push(new WKSetData(rep.data[i].reps, rep.data[i].status, rep.data.weight))
+      const retObject = []
+      let arrObject = []
+      for (let i = 0; i < rep.data.length; i++) {
+        arrObject = []
+        for (let t = 0; t < rep.data[i].length; t++) {
+          arrObject.push(new WKSetData(rep.data[i][t].reps, rep.data[i][t].status, rep.data[i][t].weight))
+        }
+        retObject.push(arrObject)
       }
+      console.log(retObject)
       return retObject
     },
     startWorkout() {
@@ -161,8 +168,11 @@ export default {
           .then((WKDetailData) => {
             this.fetchWKData(this.name)
                 .then((WKData) => {
+                  console.log(WKData)
+                  console.log(WKDetailData)
+                  console.log(this.getWKData)
                   for (let i = 0; WKData.length; i++) {
-                    this.getWKData[i].addToList(WKData[i].name,WKDetailData[i])
+                    this.getWKData[i].addToList(WKData[i].name, WKDetailData[i])
                   }
                 })
           })
