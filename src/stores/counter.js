@@ -30,15 +30,21 @@ export const useRecordStore = defineStore('record', {
         addToWKList(_idx, _name, _data) {
             this.WKData[_idx].workoutList.push({workoutName: _name, workoutSetData: _data})
         },
-        getWKIdxByName(_name){
-            for(let i=0;i<this.WKData.length;i++){
-                if(_name === this.WKData[i].routineName){
+        getWKIdxByName(_name) {
+            for (let i = 0; i < this.WKData.length; i++) {
+                if (_name === this.WKData[i].routineName) {
                     return i
                 }
             }
             return false
+        },
+        getWKObjectByRoutine(_routineName) {
+            for (let i = 0; i < this.WKData.length; i++) {
+                if (this.WKData[i].routineName === _routineName)
+                    return  this.WKData[i]
+            }
+            console.log('there is no routine like'+ _routineName +'!')
         }
-
     }
     ,
     getters: {

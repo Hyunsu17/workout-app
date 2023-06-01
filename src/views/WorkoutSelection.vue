@@ -91,7 +91,7 @@ export default {
   }
   ,
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getWKIdxByName']),
+    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getWKIdxByName','getWKObjectByRoutine']),
     getData2(index) {
       const data = this.getWKDetailData
       let setDto = function (_id, _reps, _status, _weight) {
@@ -163,6 +163,12 @@ export default {
       for (let i = 0; i < data.length; i++) {
         this.WKNameList.push(data[i].workoutName)
       }
+    },
+    checkStatus(){
+      if(this.getWKObjectByRoutine.workoutList.length == 0)
+        return true
+      else
+        return false
     }
   },
   created() {
@@ -174,16 +180,12 @@ export default {
                   for (let i = 0; i < WKData.length; i++) {
                     this.addToWKList(this.getWKIdxByName(this.name), WKData[i].name, WKDetailData[i])
                   }
-                  console.log('1')
                 })
                 .then(() => {
-              console.log('2')
-              console.log(this.getWKData[this.getWKIdxByName(this.name)].workoutList)
               this.initValue(this.getWKData[this.getWKIdxByName(this.name)].workoutList)
-              console.log(this.WKNameList)
-            })
+              console.log(this.getWKData)
+                })
           })
-
     }
   }
 }
