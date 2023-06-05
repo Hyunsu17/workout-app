@@ -40,6 +40,7 @@ export const useRecordStore = defineStore('record', {
         },
         getWKObjectByRoutine(_routineName) {
             for (let i = 0; i < this.WKData.length; i++) {
+                console.log(this.WKData[i].routineName)
                 if (this.WKData[i].routineName === _routineName)
                     return  this.WKData[i]
             }

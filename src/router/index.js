@@ -56,7 +56,7 @@ const router = createRouter({
       component: QuickRecordView
     },
     {
-      path:'/workoutDetail/:name/:id/:SetData',
+      path:'/workoutDetail/:name/:id',
       name:'workoutDetailsView',
       component: workoutDetailsView,
       props:true

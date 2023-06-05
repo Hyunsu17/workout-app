@@ -159,20 +159,20 @@ export default {
     startWorkout() {
       this.startCheck = true
     },
-    initValue(data) {
-      for (let i = 0; i < data.length; i++) {
-        this.WKNameList.push(data[i].workoutName)
+    initValue() {
+      for (let i = 0; i < this.getWKData[this.getWKIdxByName(this.name)].workoutList.length; i++) {
+        this.WKNameList.push(this.getWKData[this.getWKIdxByName(this.name)].workoutList[i].workoutName)
       }
     },
     checkStatus(){
-      if(this.getWKObjectByRoutine.workoutList.length == 0)
+      if(this.getWKObjectByRoutine(this.name).workoutList.length == 0)
         return true
       else
         return false
     }
   },
   created() {
-    if (!this.startCheck) {
+    if (this.checkStatus()) {
       this.fetchWKDetailData(this.name)
           .then((WKDetailData) => {
             this.fetchWKData(this.name)
@@ -182,10 +182,12 @@ export default {
                   }
                 })
                 .then(() => {
-              this.initValue(this.getWKData[this.getWKIdxByName(this.name)].workoutList)
+              this.initValue()
               console.log(this.getWKData)
                 })
           })
+    }else{
+      this.initValue()
     }
   }
 }

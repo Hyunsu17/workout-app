@@ -90,10 +90,11 @@
 
 <script>
 import RecordCard from "@/components/RecordCard.vue";
+import {mapActions, mapState} from "pinia";
+import {useRecordStore} from "@/stores/counter";
 
 export default {
   name: "WorkoutDetailsView",
-  computed: {},
   props: ['SetData']
   ,
   components: {RecordCard},
@@ -109,10 +110,14 @@ export default {
     ]
   }),
   created() {
-    console.log(typeof (this.SetData))
-    this.record = JSON.parse(this.SetData)
+    this.initValue()
   },
+  computed: {
+    ...mapState(useRecordStore, ['getWKData'])
+  }
+  ,
   methods: {
+    ...mapActions(useRecordStore, ['getWKIdxByName']),
     setBreakTime() {
       if (this.timer != null) {
         this.timerStop(this.timer)
@@ -145,6 +150,10 @@ export default {
     },
     changeAllStatus() {
       this.$refs.recordCard.intermediate()
+    },
+    initValue() {
+      this.record = this.getWKData[this.getWKIdxByName(this.$route.params.name)].workoutList[this.$route.params.id].workoutSetData
+      console.log(this.record)
     },
     addSet() {
       this.record.push({reps: 10})
