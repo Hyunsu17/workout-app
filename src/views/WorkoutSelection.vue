@@ -54,7 +54,7 @@
 
   <router-link
       v-for="(data,index) in WKNameList" :key="data"
-      :to="'/workoutDetail/'+this.name+'/'+index+'/'">
+      :to="'/workoutDetail/'+this.name+'/'+ (parseInt(index)+1) +'/'">
     <v-btn
         block
         min-height="100px"
@@ -91,7 +91,7 @@ export default {
   }
   ,
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getWKIdxByName','getWKObjectByRoutine']),
+    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getRoutineIdxByName','getWKObjectByRoutine']),
     getData2(index) {
       const data = this.getWKDetailData
       let setDto = function (_id, _reps, _status, _weight) {
@@ -160,8 +160,8 @@ export default {
       this.startCheck = true
     },
     initValue() {
-      for (let i = 0; i < this.getWKData[this.getWKIdxByName(this.name)].workoutList.length; i++) {
-        this.WKNameList.push(this.getWKData[this.getWKIdxByName(this.name)].workoutList[i].workoutName)
+      for (let i = 0; i < this.getWKData[this.getRoutineIdxByName(this.name)].workoutList.length; i++) {
+        this.WKNameList.push(this.getWKData[this.getRoutineIdxByName(this.name)].workoutList[i].workoutName)
       }
     },
     checkStatus(){
@@ -178,7 +178,7 @@ export default {
             this.fetchWKData(this.name)
                 .then((WKData) => {
                   for (let i = 0; i < WKData.length; i++) {
-                    this.addToWKList(this.getWKIdxByName(this.name), WKData[i].name, WKDetailData[i])
+                    this.addToWKList(this.getRoutineIdxByName(this.name), WKData[i].name, WKDetailData[i])
                   }
                 })
                 .then(() => {

@@ -26,7 +26,7 @@
     <v-col
     >
       <v-checkbox
-          v-model="radioStatus"
+          v-model="currentStatus"
           style="font-size: 250%; position: relative;
                 left:50%; top:15%"
       >
@@ -39,15 +39,19 @@
 export default {
   name: "RecordTable",
   data: () => ({
-    radioStatus: false
+    currentStatus:null
   }),
+  created() {
+
+  },
   props: {
     reps: Number,
-    idx: Number
+    idx: Number,
+    radioStatus: Boolean
   },
   methods: {
     setTrue() {
-      this.radioStatus = true
+      this.currentStatus = true
     }
   }
 }

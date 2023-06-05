@@ -1,6 +1,7 @@
 <template>
   <v-pagination
-      :length="4"
+      v-model="localId"
+      :length="pageLength"
       rounded
   >
 
@@ -29,7 +30,7 @@
 
   <record-card
       ref="recordCard"
-      :name="'랫 풀 다운'"
+      :name="WKName"
       :record="record"
   >
 
@@ -95,29 +96,43 @@ import {useRecordStore} from "@/stores/counter";
 
 export default {
   name: "WorkoutDetailsView",
-  props: ['SetData']
-  ,
   components: {RecordCard},
   data: () => ({
+    localId: 0,
+    WKName: '',
+    routineName:'',
     timer: null,
     timeCounter: 0,
     timeStr: "00:00",
-    record: [
-      {reps: 10},
-      {reps: 10},
-      {reps: 10},
-      {reps: 10},
-    ]
+    record: [],
+    pageLength: 0,
   }),
   created() {
-    this.initValue()
+    this.initId(this.$route.params.id)
+    this.initRoutineName(this.$route.params.name)
+    this.initWKName(this.getWKNameByWKIdx(this.$route.params.name, this.localId-1))
+    this.initSetData(this.localId, this.routineName)
+    this.pageLength = this.getWKData[this.getRoutineIdxByName(this.routineName)].workoutList.length
   },
   computed: {
     ...mapState(useRecordStore, ['getWKData'])
+  },
+  watch: {
+    localId: {
+      handler(val)
+      {
+        const newName = this.getWKNameByWKIdx(this.$route.params.name,val-1)
+        console.log('watch!!!'+newName)
+        this.initWKName(newName)
+        this.initSetData(this.localId,this.routineName)
+      }
+    ,
+      immediate: false
+    }
   }
   ,
   methods: {
-    ...mapActions(useRecordStore, ['getWKIdxByName']),
+    ...mapActions(useRecordStore, ['getRoutineIdxByName','getWKNameByWKIdx']),
     setBreakTime() {
       if (this.timer != null) {
         this.timerStop(this.timer)
@@ -151,12 +166,23 @@ export default {
     changeAllStatus() {
       this.$refs.recordCard.intermediate()
     },
-    initValue() {
-      this.record = this.getWKData[this.getWKIdxByName(this.$route.params.name)].workoutList[this.$route.params.id].workoutSetData
-      console.log(this.record)
+    initId(_id) {
+      this.localId = _id
+    },
+    initWKName(_name) {
+      this.WKName = _name
+    },
+    initRoutineName(_name){
+      this.routineName = _name
+    },
+    initSetData(_id, _name) {
+      console.log(_name)
+      console.log('initSetData')
+      this.record = this.getWKData[this.getRoutineIdxByName(_name)].workoutList[_id-1].workoutSetData
     },
     addSet() {
-      this.record.push({reps: 10})
+      const newRecord = JSON.parse(JSON.stringify(this.record[this.record.length - 1]))
+      this.record.push(newRecord)
     },
     removeLastSet() {
       this.record.pop()
