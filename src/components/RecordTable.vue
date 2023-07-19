@@ -39,10 +39,13 @@
 export default {
   name: "RecordTable",
   data: () => ({
-    currentStatus:null
+    currentStatus:false
   }),
   created() {
-
+    this.currentStatus = this.radioStatus
+  },
+  updated() {
+    this.currentStatus = this.radioStatus
   },
   props: {
     reps: Number,
@@ -52,6 +55,9 @@ export default {
   methods: {
     setTrue() {
       this.currentStatus = true
+    },
+    returnValue(){
+      return this.currentStatus
     }
   }
 }

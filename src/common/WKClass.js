@@ -3,7 +3,6 @@ export default class WKClass {
     constructor(_routineName) {
         this.workoutList = []
         this.routineName = _routineName
-
     }
 
     /**

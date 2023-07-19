@@ -164,8 +164,12 @@ export default {
         this.WKNameList.push(this.getWKData[this.getRoutineIdxByName(this.name)].workoutList[i].workoutName)
       }
     },
+    /**
+     *
+     * @returns {boolean}
+     */
     checkStatus(){
-      if(this.getWKObjectByRoutine(this.name).workoutList.length == 0)
+      if(this.getWKObjectByRoutine(this.name).workoutList.length === 0)
         return true
       else
         return false

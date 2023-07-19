@@ -33,7 +33,6 @@
       :name="WKName"
       :record="record"
   >
-
   </record-card>
 
   <v-row
@@ -98,9 +97,10 @@ export default {
   name: "WorkoutDetailsView",
   components: {RecordCard},
   data: () => ({
+    previousLocalId: 0,
     localId: 0,
     WKName: '',
-    routineName:'',
+    routineName: '',
     timer: null,
     timeCounter: 0,
     timeStr: "00:00",
@@ -108,9 +108,10 @@ export default {
     pageLength: 0,
   }),
   created() {
+    this.previousLocalId = this.$route.params.id
     this.initId(this.$route.params.id)
     this.initRoutineName(this.$route.params.name)
-    this.initWKName(this.getWKNameByWKIdx(this.$route.params.name, this.localId-1))
+    this.initWKName(this.getWKNameByWKIdx(this.$route.params.name, this.localId - 1))
     this.initSetData(this.localId, this.routineName)
     this.pageLength = this.getWKData[this.getRoutineIdxByName(this.routineName)].workoutList.length
   },
@@ -119,20 +120,23 @@ export default {
   },
   watch: {
     localId: {
-      handler(val)
-      {
-        const newName = this.getWKNameByWKIdx(this.$route.params.name,val-1)
-        console.log('watch!!!'+newName)
-        this.initWKName(newName)
-        this.initSetData(this.localId,this.routineName)
+      handler(val) {
+        this.savePreviousStatus(this.previousLocalId, this.routineName)
+        const WKName = this.getWKNameByWKIdx(this.$route.params.name, val - 1)
+        this.initWKName(WKName)
+        this.initSetData(this.localId, this.routineName)
       }
-    ,
+      ,
       immediate: false
     }
   }
   ,
+  beforeRouteLeave(to, from, next){
+    this.savePreviousStatus(this.previousLocalId,this.routineName)
+    next()
+  },
   methods: {
-    ...mapActions(useRecordStore, ['getRoutineIdxByName','getWKNameByWKIdx']),
+    ...mapActions(useRecordStore, ['getRoutineIdxByName', 'getWKNameByWKIdx']),
     setBreakTime() {
       if (this.timer != null) {
         this.timerStop(this.timer)
@@ -164,21 +168,7 @@ export default {
       )
     },
     changeAllStatus() {
-      this.$refs.recordCard.intermediate()
-    },
-    initId(_id) {
-      this.localId = _id
-    },
-    initWKName(_name) {
-      this.WKName = _name
-    },
-    initRoutineName(_name){
-      this.routineName = _name
-    },
-    initSetData(_id, _name) {
-      console.log(_name)
-      console.log('initSetData')
-      this.record = this.getWKData[this.getRoutineIdxByName(_name)].workoutList[_id-1].workoutSetData
+      this.$refs.recordCard.onMethodRequest({methodName: 'setTrue', param: undefined})
     },
     addSet() {
       const newRecord = JSON.parse(JSON.stringify(this.record[this.record.length - 1]))
@@ -186,6 +176,32 @@ export default {
     },
     removeLastSet() {
       this.record.pop()
+    },
+    initId(_localId) {
+      this.localId = _localId
+    },
+    initWKName(_WKName) {
+      this.WKName = _WKName
+    },
+    initRoutineName(_RoutineName) {
+      this.routineName = _RoutineName
+    },
+    initSetData(_id, _name) {
+      this.record = this.fetchWKSetData(_id, _name)
+    },
+    /**
+     * 인덱스값에 해당 하는 운동 세트 데이터를 가져온다
+     */
+    fetchWKSetData(_id, _name) {
+      return this.getWKData[this.getRoutineIdxByName(_name)].workoutList[_id - 1].workoutSetData
+    },
+    savePreviousStatus(preLocalId,_name) {
+      console.log(this.previousLocalId, this.localId)
+      const record = this.fetchWKSetData(preLocalId, _name)
+      console.log(this.record)
+      const changedRecord = this.$refs.recordCard.onMethodRequest({methodName: 'returnValue', param: undefined})
+      for (let i = 0; i < record.length; i++) record[i].status = changedRecord[i]
+      this.previousLocalId = this.localId
     }
   }
 }

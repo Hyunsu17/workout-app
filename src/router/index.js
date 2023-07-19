@@ -59,7 +59,12 @@ const router = createRouter({
       path:'/workoutDetail/:name/:id',
       name:'workoutDetailsView',
       component: workoutDetailsView,
-      props:true
+      props:true,
+      beforeRouteLeave(to, from, next){
+        const pageComponentInstance = from.meta.instance
+        pageComponentInstance.
+        next()
+      }
     }
   ]
 })

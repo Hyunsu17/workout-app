@@ -77,6 +77,7 @@
             :key="idx"
             :reps="value.reps"
             :idx="idx"
+            :radio-status="value.status"
         >
         </record-table>
       </v-col>
@@ -109,15 +110,27 @@ export default {
       set: function (record) {
         this.$emit('', record)
       }
-
     }
   }
   , methods: {
-    intermediate() {
-      for (let i = 0; i < this.record.length; i++) {
-        this.$refs.recordTable[i].setTrue()
+    onMethodRequest({ methodName, param }) {
+
+      //메서드 목록 객체
+      const methods = {
+        setTrue: () => this.$refs.recordTable.forEach(table => table.setTrue()),
+        returnValue: () => this.$refs.recordTable.map(table => table.returnValue())
       }
-    }
+      //메서드 실행
+      if(methods[methodName]){
+        let ret =[]
+        ret = methods[methodName](param)
+        return ret
+      }
+      else{
+        return null
+      }
+
+    },
   }
 
 }
