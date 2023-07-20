@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Table(name="TB_WORKOUT_ELEMENT")
-public class WorkOutElement {
+public class HistoryOfWorkoutElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +26,8 @@ public class WorkOutElement {
 
     @ManyToOne
     @JoinColumn(name = "ROUTINE_SQ")
-    private Routine routine;
+    private HistoryOfWorkout historyOfWorkout;
 
 
-    protected WorkOutElement() {}
+    protected HistoryOfWorkoutElement() {}
 }

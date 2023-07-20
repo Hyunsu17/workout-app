@@ -3,12 +3,12 @@ package com.cos.blog.controller;
 
 import com.cos.blog.model.Routine;
 import com.cos.blog.model.User;
-import com.cos.blog.model.WorkOutElement;
-import com.cos.blog.model.WorkOutSet;
+import com.cos.blog.model.WorkoutElement;
+import com.cos.blog.model.WorkoutSet;
 import com.cos.blog.service.RoutineService;
 import com.cos.blog.service.UserService;
-import com.cos.blog.service.WorkOutElementService;
-import com.cos.blog.service.WorkOutSetService;
+import com.cos.blog.service.WorkoutElementService;
+import com.cos.blog.service.WorkoutSetService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,9 +29,9 @@ public class UserController {
 
     private final RoutineService routineService;
     private final UserService userService;
-    private final WorkOutElementService workOutElementService;
+    private final WorkoutElementService workOutElementService;
 
-    private final WorkOutSetService workOutSetService;
+    private final WorkoutSetService workOutSetService;
 
     @PostMapping("/test")
     public List<Routine> routineList(@RequestBody User user) {
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/test3")
-    public List<WorkOutElement> test3(@RequestBody JsonNode saveObj) {
+    public List<WorkoutElement> test3(@RequestBody JsonNode saveObj) {
         ObjectMapper mapper = new ObjectMapper();
         User user;
         Routine routine;
@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @PostMapping("/test4")
-    public List<List<WorkOutSet>> test4(@RequestBody JsonNode saveObj) {
+    public List<List<WorkoutSet>> test4(@RequestBody JsonNode saveObj) {
         ObjectMapper mapper = new ObjectMapper();
         User user;
         Routine routine;

@@ -3,7 +3,6 @@ package com.cos.blog.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import javax.persistence.*;
 
@@ -11,10 +10,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Getter
-@Table(name = "TB_WORKOUT_SET")
-public class WorkOutSet {
-
-    @Id
+@Table(name = "TB_HISTORY_WORKOUT_SET")
+public class HistoryOfWorkoutSet {
+    @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SET_SQ")
     private int Id;
@@ -29,8 +27,8 @@ public class WorkOutSet {
     private boolean status;
 
     @ManyToOne
-    private WorkOutElement workOutElement;
+    private WorkoutElement workOutElement;
 
-    protected WorkOutSet() {
+    protected HistoryOfWorkoutSet() {
     }
 }
