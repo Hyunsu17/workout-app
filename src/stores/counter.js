@@ -4,9 +4,17 @@ import axios from "axios"
 export const useRecordStore = defineStore('record', {
     state: () => ({
         WKData: [],
-        WKSetData: null
+        WKSetData: null,
+        isExercising: false
     }),
     actions: {
+        completeWorkingOut() {
+            this.isExercising = false
+        },
+        startWorkingOut() {
+            this.isExercising = true
+        }
+        ,
         setWkDetailData(data) {
             this.WKSetData = data
         },
@@ -55,13 +63,13 @@ export const useRecordStore = defineStore('record', {
                 if (this.WKData[i].routineName === _routineName)
                     return this.WKData[i]
             }
-            console.log('there is no routine like'+ _routineName +'!')
+            console.log('there is no routine like' + _routineName + '!')
             return null
         },
-        getWKNameByWKIdx(_routineName, _idx){
+        getWKNameByWKIdx(_routineName, _idx) {
             console.log(_routineName)
             const WKObject = this.getWKObjectByRoutine(_routineName)
-            if(WKObject === null){
+            if (WKObject === null) {
                 console.log('Sorry WorkOut data is undefined')
             }
             return WKObject.workoutList[_idx].workoutName

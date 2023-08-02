@@ -195,10 +195,13 @@ export default {
     fetchWKSetData(_id, _name) {
       return this.getWKData[this.getRoutineIdxByName(_name)].workoutList[_id - 1].workoutSetData
     },
+    /**
+     *
+     * @param preLocalId
+     * @param _name
+     */
     savePreviousStatus(preLocalId,_name) {
-      console.log(this.previousLocalId, this.localId)
       const record = this.fetchWKSetData(preLocalId, _name)
-      console.log(this.record)
       const changedRecord = this.$refs.recordCard.onMethodRequest({methodName: 'returnValue', param: undefined})
       for (let i = 0; i < record.length; i++) record[i].status = changedRecord[i]
       this.previousLocalId = this.localId

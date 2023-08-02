@@ -63,11 +63,43 @@
     </v-btn>
   </router-link>
 
-  <v-btn
-      @click="startWorkout"
+
+  <v-row
+      class="justify-center mx-auto"
   >
-    시작
-  </v-btn>
+    <v-col
+        class="my-16"
+        cols="4"
+        align-self="center"
+    >
+      <v-btn @click="this.callStartWorkingOut"
+             width="100%"
+      >
+        시작
+      </v-btn>
+    </v-col>
+    <v-col
+        class="mb-16"
+        cols="12">
+    </v-col>
+  </v-row>
+
+
+  <!--  <v-dialog-->
+  <!--    v-model="dialog"-->
+  <!--    width="auto"-->
+  <!--  >-->
+  <!--    <v-card>-->
+  <!--      <v-card-text>-->
+  <!--        운동이 진행중입니다.종료하고 메인메뉴로 이동하시겠습니까?-->
+  <!--      </v-card-text>-->
+  <!--      <v-card-actions>-->
+  <!--        <v-btn color="primary" block @click="dialog = false">Close Dialog</v-btn>-->
+  <!--      </v-card-actions>-->
+  <!--    </v-card>-->
+
+  <!--  </v-dialog>-->
+
 </template>
 
 <script>
@@ -80,6 +112,7 @@ export default {
   props: ['name'],
   data() {
     return {
+      dialog: false,
       WKNameList: [],
       testData2: [],
       startCheck: false
@@ -88,23 +121,18 @@ export default {
   computed: {
     ...mapStores(useRecordStore),
     ...mapState(useRecordStore, ['getWKDetailData', 'getWKData'])
+  },
+  beforeRouteLeave(to, from, next) {
+    // if(this.dialog===false)
+    //   this.dialog = true
+    // else
+    next()
   }
   ,
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getRoutineIdxByName','getWKObjectByRoutine']),
-    getData2(index) {
-      const data = this.getWKDetailData
-      let setDto = function (_id, _reps, _status, _weight) {
-        this.reps = _reps
-        this.status = _status
-        this.id = _id
-        this.weight = _weight
-      }
-      let arr = []
-      for (let i = 0; i < data[index].length; i++) {
-        arr.push(new setDto(data[index][i].id, data[index][i].reps, data[index][i].status, data[index][i].weight))
-      }
-      return JSON.stringify(arr)
+    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getRoutineIdxByName', 'getWKObjectByRoutine', 'startWorkingOut']),
+    callStartWorkingOut() {
+      this.startWorkingOut()
     },
     fetchWKData(name, WKsetData) {
       const params = {
@@ -156,9 +184,6 @@ export default {
       }
       return retObject
     },
-    startWorkout() {
-      this.startCheck = true
-    },
     initValue() {
       for (let i = 0; i < this.getWKData[this.getRoutineIdxByName(this.name)].workoutList.length; i++) {
         this.WKNameList.push(this.getWKData[this.getRoutineIdxByName(this.name)].workoutList[i].workoutName)
@@ -168,13 +193,15 @@ export default {
      *
      * @returns {boolean}
      */
-    checkStatus(){
-      if(this.getWKObjectByRoutine(this.name).workoutList.length === 0)
+    checkStatus() {
+      if (this.getWKObjectByRoutine(this.name).workoutList.length === 0)
         return true
       else
         return false
-    }
-  },
+    },
+
+  }
+  ,
   created() {
     if (this.checkStatus()) {
       this.fetchWKDetailData(this.name)
@@ -186,11 +213,11 @@ export default {
                   }
                 })
                 .then(() => {
-              this.initValue()
-              console.log(this.getWKData)
+                  this.initValue()
+                  console.log(this.getWKData)
                 })
           })
-    }else{
+    } else {
       this.initValue()
     }
   }

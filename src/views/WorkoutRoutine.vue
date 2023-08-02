@@ -120,7 +120,7 @@
           class="text-black"
           style="background-color:skyblue; width: 100%; height:200%">
         <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
-        {{item.routineName}}
+        {{ item.routineName }}
         <v-btn
             style="position: absolute; left: 100% ; transform: translateX(-110%)"
             elevation="0">
@@ -135,38 +135,6 @@
   </v-row>
 
 
-  <v-row
-      class="justify-center mx-auto"
-      style="
-      position: fixed;
-      bottom: 100px;
-      width: 100%;
-"
-  >
-    <v-col
-        cols="5"
-    >
-      <v-btn
-          width="100%"
-          height="200%"
-      >
-        자유운동
-      </v-btn>
-    </v-col>
-    <v-col
-        class="justify-center"
-        cols="5"
-    >
-      <v-btn
-          width="100%"
-          height="200%"
-      >
-        루틴추가
-      </v-btn>
-    </v-col>
-  </v-row>
-
-
 </template>
 
 <script>
@@ -178,14 +146,16 @@ export default {
   , data: () => ({
     nameList: ['롤', '플'],
     testData: [''],
-    order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅']
+    order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅'],
+    isWorkingOut: ''
   }),
-  computed:{
-    ...mapState(useRecordStore, ['WKData'])
+  computed: {
+    ...mapState(useRecordStore, ['WKData', 'isExercising'])
   },
   methods: {
-    initRoutine(){
-      if(this.WKData) this.testData = this.WKData
+    initRoutine() {
+      this.isWorkingOut = this.isExercising
+      if (this.WKData) this.testData = this.WKData
     }
   },
   created() {

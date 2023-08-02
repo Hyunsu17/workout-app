@@ -3,6 +3,8 @@
     <v-main>
       <router-view/>
     </v-main>
+    <footer-button-group :is-working-out="this.isExercising"/>
+
     <v-bottom-navigation
     >
       <v-row justify="center"
@@ -32,6 +34,7 @@
 import {mapActions, mapState} from "pinia";
 import {useRecordStore} from "@/stores/counter";
 import WKClass from "@/common/WKClass";
+import FooterButtonGroup from "@/components/FooterButtonGroup.vue";
 
 export default {
   name: 'App',
@@ -39,19 +42,22 @@ export default {
     this.getRoutine()
   },
   computed: {
-    ...mapState(useRecordStore, ['WKData'])
+    ...mapState(useRecordStore, ['WKData','isExercising'],)
   },
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'pushToWorkoutData']),
+    ...mapActions(useRecordStore, ['postCall', 'pushToWorkoutData','completeWorkingOut']),
     getRoutine() {
       this.postCall('/api/test', {username: 'test'}).then((rep) => {
         if (rep.status === 200) {
           for (let i = 0; i < rep.data.length; i++) this.pushToWorkoutData(new WKClass(rep.data[i].name))
-          console.log(this.WKData)
         }
       })
     },
   },
+  components: {
+    FooterButtonGroup,
+  }
+  ,
   data: () => ({
     links: {
       요약: 'mdi-poll',
