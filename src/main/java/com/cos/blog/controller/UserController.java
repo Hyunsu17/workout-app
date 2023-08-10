@@ -1,10 +1,7 @@
 package com.cos.blog.controller;
 
 
-import com.cos.blog.model.Routine;
-import com.cos.blog.model.User;
-import com.cos.blog.model.WorkoutElement;
-import com.cos.blog.model.WorkoutSet;
+import com.cos.blog.model.*;
 import com.cos.blog.service.RoutineService;
 import com.cos.blog.service.UserService;
 import com.cos.blog.service.WorkoutElementService;
@@ -13,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,6 +78,11 @@ public class UserController {
         User foundUser = userService.회원찾기(user.getUsername());
         Routine specificRoutine = routineService.getSpecificRoutineByName(foundUser, routine.getName());
         return workOutSetService.findAllSetByRoutine(specificRoutine);
+    }
+
+    @PostMapping("/api/exercise")
+    public ResponseEntity<Object> saveExercises(@RequestBody JsonNode saveObj){
+
     }
 
 }

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class HistoryOfWorkoutElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "WORKOUT_SQ")
+    @Column(name = "HISTORY_ELEMNT_SQ")
     private int ID;
 
     @Column(name = "WORKOUT_NM")
@@ -25,8 +26,11 @@ public class HistoryOfWorkoutElement {
     private String part;
 
     @ManyToOne
-    @JoinColumn(name = "ROUTINE_SQ")
+    @JoinColumn(name = "HISTORY_WORKOUT_SQ")
     private HistoryOfWorkout historyOfWorkout;
+
+    @OneToMany(mappedBy = "historyOfWorkoutElement", cascade = CascadeType.ALL)
+    private List<HistoryOfWorkoutSet> historyOfWorkoutSetList;
 
 
     protected HistoryOfWorkoutElement() {}

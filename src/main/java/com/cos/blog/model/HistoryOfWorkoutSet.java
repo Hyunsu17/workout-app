@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class HistoryOfWorkoutSet {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SET_SQ")
+    @Column(name = "HISTORY_SET_SQ")
     private int Id;
 
     @Column(name = "REPS")
@@ -27,7 +27,8 @@ public class HistoryOfWorkoutSet {
     private boolean status;
 
     @ManyToOne
-    private WorkoutElement workOutElement;
+    @JoinColumn(name="HISTORY_ELEMENT_SQ")
+    private HistoryOfWorkoutElement historyOfWorkoutElement;
 
     protected HistoryOfWorkoutSet() {
     }

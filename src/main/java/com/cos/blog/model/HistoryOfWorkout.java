@@ -6,6 +6,7 @@ import lombok.Builder;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -17,6 +18,8 @@ public class HistoryOfWorkout {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="HISTORY_WORKOUT_SQ")
     private long historyId;
 
     @Column(name = "WORKOUT_DATE")
@@ -28,4 +31,8 @@ public class HistoryOfWorkout {
     @ManyToOne
     @JoinColumn(name = "USER_SQ")
     private User user;
+
+    @OneToMany(mappedBy = "historyOfWorkout", cascade = CascadeType.ALL)
+    private List<HistoryOfWorkoutElement> historyOfWorkoutElementList;
+
 }
