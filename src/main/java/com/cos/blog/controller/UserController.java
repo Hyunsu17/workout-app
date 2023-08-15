@@ -78,7 +78,9 @@ public class UserController {
             throw new RuntimeException(e);
         }
         User foundUser = userService.회원찾기(user.getUsername());
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@routine: "+routine.getName()+"@@@@@@@@@@@@@@@@@@@");
         Routine specificRoutine = routineService.getSpecificRoutineByName(foundUser, routine.getName());
+        System.out.println(specificRoutine.toString());
         return workOutSetService.findAllSetByRoutine(specificRoutine);
     }
 
