@@ -2,22 +2,24 @@ package com.cos.blog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "TB_WORKOUT_HISTORY")
-public class WorkOutHistory {
+@Table(name = "TB_HISTORY_WORKOUT")
+public class HistoryOfWorkout {
 
-    protected WorkOutHistory() {
+    protected HistoryOfWorkout() {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="HISTORY_WORKOUT_SQ")
     private long historyId;
 
     @Column(name = "WORKOUT_DATE")
@@ -29,5 +31,8 @@ public class WorkOutHistory {
     @ManyToOne
     @JoinColumn(name = "USER_SQ")
     private User user;
+
+    @OneToMany(mappedBy = "historyOfWorkout", cascade = CascadeType.ALL)
+    private List<HistoryOfWorkoutElement> historyOfWorkoutElementList;
 
 }

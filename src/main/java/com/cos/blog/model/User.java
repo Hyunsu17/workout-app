@@ -39,7 +39,7 @@ public class User {
     private String oauth;
 
     @OneToMany(mappedBy = "user")
-    private List<WorkOutHistory> workOutHistoryList;
+    private List<HistoryOfWorkout> historyOfWorkOutList;
 
 
     //DB는 RoleType이란게 없다

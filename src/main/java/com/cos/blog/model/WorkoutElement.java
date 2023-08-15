@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Table(name="TB_WORKOUT_ELEMENT")
-public class WorkOutElement {
+public class WorkoutElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,5 @@ public class WorkOutElement {
     private Routine routine;
 
 
-    protected WorkOutElement() {}
+    protected WorkoutElement() {}
 }
