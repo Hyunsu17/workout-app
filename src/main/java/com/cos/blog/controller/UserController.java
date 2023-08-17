@@ -84,7 +84,7 @@ public class UserController {
 
     @PostMapping("/api/exercise")
     public ResponseEntity<Object> saveExercises(@RequestBody JsonNode saveObj){
-
+        return null;
     }
 
 }
