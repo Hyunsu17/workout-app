@@ -40,13 +40,17 @@
       >
         운동종료
       </v-btn>
-      <v-btn
+      <router-link
+          class="text-black"
           v-else
+          to="/add-routine">
+        <v-btn
           width="100%"
           height="200%"
       >
         루틴추가
       </v-btn>
+      </router-link>
 
     </v-col>
   </v-row>

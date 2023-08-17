@@ -51,7 +51,7 @@ export default {
         if (rep.status === 200) {
           for (let i = 0; i < rep.data.length; i++) this.pushToWorkoutData(new WKClass(rep.data[i].name))
         }
-      })
+       })
     },
   },
   components: {

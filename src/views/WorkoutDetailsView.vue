@@ -200,7 +200,7 @@ export default {
      * @param preLocalId
      * @param _name
      */
-    savePreviousStatus(preLocalId,_name) {
+    savePreviousStatus  (preLocalId,_name) {
       const record = this.fetchWKSetData(preLocalId, _name)
       const changedRecord = this.$refs.recordCard.onMethodRequest({methodName: 'returnValue', param: undefined})
       for (let i = 0; i < record.length; i++) record[i].status = changedRecord[i]
