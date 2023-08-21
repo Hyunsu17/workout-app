@@ -1,5 +1,9 @@
 
 export default class WKClass {
+    /**
+     * construct by routine name
+     * @param _routineName
+     */
     constructor(_routineName) {
         this.workoutList = []
         this.routineName = _routineName

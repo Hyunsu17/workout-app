@@ -5,7 +5,7 @@ export const useRecordStore = defineStore('record', {
     state: () => ({
         WKData: [],
         WKSetData: null,
-        isExercising: false
+        tempRoutineStorage: []
     }),
     actions: {
         completeWorkingOut() {
@@ -73,6 +73,9 @@ export const useRecordStore = defineStore('record', {
                 console.log('Sorry WorkOut data is undefined')
             }
             return WKObject.workoutList[_idx].workoutName
+        },
+        setTempRoutineStorage(_data){
+            this.tempRoutineStorage = _data
         }
     }
     ,

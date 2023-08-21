@@ -133,6 +133,8 @@
       </v-btn>
     </router-link>
   </v-row>
+  <div style="height: 30%"/>
+  <footer-button-group/>
 
 
 </template>
@@ -140,10 +142,13 @@
 <script>
 import {mapState} from "pinia";
 import {useRecordStore} from "@/stores/counter";
+import FooterButtonGroup from "@/components/FooterButtonGroup.vue";
 
 export default {
   name: "WorkoutRoutine"
-  , data: () => ({
+  ,
+  components: {FooterButtonGroup},
+  data: () => ({
     nameList: ['롤', '플'],
     testData: [''],
     order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅'],

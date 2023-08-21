@@ -11,10 +11,8 @@
         cols="5"
     >
       <v-btn
-          v-if="isWorkingOut"
-
+          v-if="this.isExercising"
           disabled="true"
-
           width="100%"
           height="200%"
       >
@@ -34,7 +32,7 @@
     >
       <v-btn
           @click="callCompleteWorkingOut"
-          v-if="isWorkingOut"
+          v-if="this.isExercising"
           width="100%"
           height="200%"
       >
@@ -57,16 +55,13 @@
 </template>
 
 <script>
-import {mapActions} from "pinia";
+import {mapActions, mapState} from "pinia";
 import {useRecordStore} from "@/stores/counter";
 
 export default {
   name: "FooterButtonGroup",
-  props: {
-    isWorkingOut: {
-      type: Boolean,
-      required: true,
-    }
+  computed: {
+    ...mapState(useRecordStore, ['isExercising'],)
   },
   methods: {
     ...mapActions(useRecordStore, ['completeWorkingOut', 'postCall']),

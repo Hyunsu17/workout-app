@@ -8,6 +8,7 @@ import WorkoutInfoView from "@/views/WorkoutInfoView.vue";
 import QuickRecordView from "@/views/QuickRecordView.vue";
 import workoutDetailsView from "@/views/WorkoutDetailsView.vue";
 import AddRoutine from "@/views/AddRoutine.vue";
+import WorkoutList from "@/views/WorkoutList.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,6 +71,11 @@ const router = createRouter({
             path: '/add-routine',
             name: 'AddRoutine',
             component: AddRoutine
+        },
+        {
+            path: '/workout-list',
+            name: 'WorkoutList',
+            component: WorkoutList
         }
     ]
 })
