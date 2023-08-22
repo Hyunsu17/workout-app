@@ -84,7 +84,7 @@ export default {
     return {
       name: '운동',
       idx: 1,
-      workoutClass: null,
+      Routine: null,
       record:null
     }
   },
@@ -98,14 +98,14 @@ export default {
     ...mapActions(useRecordStore,['setTempRoutineStorage']),
     init() {
       if (this.tempRoutineStorage.length === 0) {
-        this.workoutClass = new WKClass('test-routine')
+        this.Routine = new WKClass('test-routine')
       } else {
-        this.workoutClass = this.tempRoutineStorage
+        this.Routine = this.tempRoutineStorage
       }
-      this.workoutClass.addToList('lat pull down', [new WKSetData(1,true,10)])
+      this.Routine.addToList('lat pull down', [new WKSetData(1,true,10)])
 
-      this.setTempRoutineStorage(this.workoutClass)
-      this.record = this.workoutClass.workoutList[this.idx-1].workoutSetData
+      this.setTempRoutineStorage(this.Routine)
+      this.record = this.Routine.workoutList[this.idx-1].workoutSetData
     },
     addWorkoutList() {
 

@@ -76,6 +76,9 @@ export const useRecordStore = defineStore('record', {
         },
         setTempRoutineStorage(_data){
             this.tempRoutineStorage = _data
+        },
+        getTempRoutineStorage(){
+            return this.tempRoutineStorage
         }
     }
     ,
