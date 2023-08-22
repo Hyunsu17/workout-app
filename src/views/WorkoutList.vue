@@ -45,6 +45,7 @@
 import {useRecordStore} from "@/stores/counter";
 import {mapActions, mapState} from "pinia";
 import WKSetData from "@/common/WKSetData";
+// import router  from "vue-router";
 
 export default {
   name: "WorkoutList",
@@ -75,18 +76,24 @@ export default {
       if (this.status === false) {
         this.status = true
         this.tempList = this.AllList[key]
-      } else {
+      }
+      else {
         let temp = this.tempRoutineStorage
-        console.log(temp)
-        for (let i = 0; temp.workoutList.length; i++) {
-          if (temp.workoutList[i].workoutName === key) {
-            alert('이미 선택하였습니다')
-            console.log(key)
-            console.log()
-            break
+        let i = 0;
+        if (temp.workoutList.length === 0) {
+          temp.addToList(key, [new WKSetData(1, false, 10)])
+        } else {
+          for (i = 0; i < temp.workoutList.length; i++) {
+            if (temp.workoutList[i].workoutName === key) {
+              alert('이미 선택하였습니다')
+              break
+            }
           }
-          else{
-            temp.addToList(key,[new WKSetData(1,false,10)])
+          if (i === temp.workoutList.length) {
+            temp.addToList(key, [new WKSetData(1, false, 10)])
+            alert('추가완료')
+            console.log(this.tempRoutineStorage)
+            this.$router.push('/add-routine')
           }
         }
       }
