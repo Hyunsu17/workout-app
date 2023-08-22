@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Getter
-@Table(name="TB_WORKOUT_ELEMENT")
+@Table(name="TB_HISTORY_WORKOUT_ELEMENT")
 public class HistoryOfWorkoutElement {
 
     @Id
