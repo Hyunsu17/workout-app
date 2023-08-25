@@ -1,15 +1,15 @@
 package com.cos.blog.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter
+@Data
 @Table(name="TB_WORKOUT_ELEMENT")
 public class WorkoutElement {
 
@@ -18,16 +18,11 @@ public class WorkoutElement {
     @Column(name = "WORKOUT_SQ")
     private int ID;
 
+    @JsonProperty("workoutName")
     @Column(name = "WORKOUT_NM")
-    private String name;
-
-    @Column(name = "WORKOUT_PART")
-    private String part;
+    private String workoutName;
 
     @ManyToOne
     @JoinColumn(name = "ROUTINE_SQ")
     private Routine routine;
-
-
-    protected WorkoutElement() {}
 }

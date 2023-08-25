@@ -1,6 +1,7 @@
 package com.cos.blog.controller;
 
 
+import com.cos.blog.common.JsonBinder;
 import com.cos.blog.model.*;
 import com.cos.blog.service.RoutineService;
 import com.cos.blog.service.UserService;
@@ -49,15 +50,11 @@ public class UserController {
 
     @PostMapping("/test3")
     public List<WorkoutElement> test3(@RequestBody JsonNode saveObj) {
-        ObjectMapper mapper = new ObjectMapper();
         User user;
         Routine routine;
-        try {
-            user = mapper.treeToValue(saveObj.get("user"), User.class);
-            routine = mapper.treeToValue(saveObj.get("routine"), Routine.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+
+        user = JsonBinder.JsonToModel(saveObj, User.class);
+        routine = JsonBinder.JsonToModel(saveObj, Routine.class);
 
         User foundUser = userService.회원찾기(user.getUsername());
         Routine specificRoutine = routineService.getSpecificRoutineByName(foundUser, routine.getName());
@@ -66,15 +63,12 @@ public class UserController {
 
     @PostMapping("/test4")
     public List<List<WorkoutSet>> test4(@RequestBody JsonNode saveObj) {
-        ObjectMapper mapper = new ObjectMapper();
         User user;
         Routine routine;
-        try {
-            user = mapper.treeToValue(saveObj.get("user"), User.class);
-            routine = mapper.treeToValue(saveObj.get("routine"), Routine.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+
+        user = JsonBinder.JsonToModel(saveObj, User.class);
+        routine = JsonBinder.JsonToModel(saveObj, Routine.class);
+
         User foundUser = userService.회원찾기(user.getUsername());
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@routine: "+routine.getName()+"@@@@@@@@@@@@@@@@@@@");
         Routine specificRoutine = routineService.getSpecificRoutineByName(foundUser, routine.getName());
@@ -84,7 +78,7 @@ public class UserController {
 
     @PostMapping("/api/exercise")
     public ResponseEntity<Object> saveExercises(@RequestBody JsonNode saveObj){
-        return null;
+        return ResponseEntity.ok().body("Successfully Created");
     }
 
 }

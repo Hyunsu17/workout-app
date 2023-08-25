@@ -22,9 +22,6 @@ public class HistoryOfWorkoutElement {
     @Column(name = "WORKOUT_NM")
     private String name;
 
-    @Column(name = "WORKOUT_PART")
-    private String part;
-
     @ManyToOne
     @JoinColumn(name = "HISTORY_WORKOUT_SQ")
     private HistoryOfWorkout historyOfWorkout;

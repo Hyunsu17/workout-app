@@ -23,5 +23,8 @@ public class RoutineService {
     public Routine getSpecificRoutineByName(User user, String name){
         return routineRepository.findByUserAndName(user,name);
     }
+    public void saveRoutine(Routine routine){
+        routineRepository.save(routine);
+    }
 
 }
