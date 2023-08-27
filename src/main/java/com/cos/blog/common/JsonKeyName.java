@@ -5,7 +5,7 @@ public enum JsonKeyName {
     ROUTINE("routine"),
     WORKOUT("workoutList"),
     WORKOUT_NAME("workoutName"),
-    SET("workoutSetData"),
+    SET("workoutSet"),
     REP("reps"),
     STATUS("status"),
     WEIGHT("weight"),

@@ -4,6 +4,7 @@ import com.cos.blog.common.JsonBinder;
 import com.cos.blog.model.Routine;
 import com.cos.blog.model.User;
 import com.cos.blog.model.WorkoutElement;
+import com.cos.blog.model.WorkoutSet;
 import com.cos.blog.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -39,7 +40,7 @@ public class JsonBInderTest {
             "      \"workoutName\": \"pull down\"\n" +
             "    }\n" +
             "  ],\n" +
-            "  \"workoutSetData\": [\n" +
+            "  \"workoutSet\": [\n" +
             "    {\n" +
             "      \"elementName\": \"rat pull down\",\n" +
             "      \"reps\": \"1\",\n" +
@@ -47,6 +48,7 @@ public class JsonBInderTest {
             "      \"weight\": \"100\"\n" +
             "    },\n" +
             "    {\n" +
+            "      \"elementName\": \"rat pull down\",\n" +
             "      \"reps\": \"2\",\n" +
             "      \"status\": \"true\",\n" +
             "      \"weight\": \"100\"\n" +
@@ -67,22 +69,20 @@ public class JsonBInderTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        User user = JsonBinder.JsonToModel(rootNode,User.class);
-        System.out.println(user.getUsername());
-
-        List<WorkoutElement> bufferedList = JsonBinder.JsonListToModelList(rootNode, WorkoutElement.class);
-        List<WorkoutElement> workoutElementList = new ArrayList<>();
-
-        bufferedList.forEach(element -> {
-            workoutElementList.add(new WorkoutElement().builder()
-                    .ID(element.getID())
-                    .workoutName(element.getWorkoutName())
-                    .routine(element.getRoutine()).build());
-        });
-
-        workoutElementList.forEach(ele->{
-            System.out.println(ele.getID());
-        });
+        JsonNode newNode = rootNode.get("workoutSet");
+        List<WorkoutSet> workoutSets = new ArrayList<>();
+        for (JsonNode jsa : newNode) {
+            String elementName = jsa.get("elementName").asText();
+            int reps = jsa.get("reps").asInt();
+            boolean status = jsa.get("status").asBoolean();
+            int weight = jsa.get("weight").asInt();
+            WorkoutElement workoutElement = WorkoutElement.builder().workoutName(elementName).build();
+            workoutSets.add(WorkoutSet.builder().reps(reps).status(status).weight(weight).workOutElement(workoutElement).build());
+        }
+        for (WorkoutSet workoutSet : workoutSets) {
+            System.out.println(workoutSet.getReps());
+            System.out.println(workoutSet.getWorkOutElement().getWorkoutName());
+        }
 
     }
 }

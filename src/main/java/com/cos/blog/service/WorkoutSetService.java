@@ -31,4 +31,8 @@ public class WorkoutSetService {
         }
         return retList;
     }
+
+    public void saveMultipleSet(List<WorkoutSet> workoutSets){
+        workOutSetRepository.saveAll(workoutSets);
+    }
 }

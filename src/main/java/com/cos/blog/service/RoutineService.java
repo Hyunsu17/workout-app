@@ -5,7 +5,9 @@ import com.cos.blog.model.User;
 import com.cos.blog.repository.RoutineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.util.List;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
@@ -23,6 +25,7 @@ public class RoutineService {
     public Routine getSpecificRoutineByName(User user, String name){
         return routineRepository.findByUserAndName(user,name);
     }
+    @Transactional
     public void saveRoutine(Routine routine){
         routineRepository.save(routine);
     }

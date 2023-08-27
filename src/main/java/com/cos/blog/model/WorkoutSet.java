@@ -24,9 +24,6 @@ public class WorkoutSet {
     @Column(name = "WEIGHT")
     private int weight;
 
-    /**
-     * 나중에 삭제할 Column
-     */
     @Column(name = "SET_ST")
     private boolean status;
 
@@ -35,4 +32,9 @@ public class WorkoutSet {
 
     protected WorkoutSet() {
     }
+
+    public boolean getStatus(){
+        return this.status;
+    }
+
 }
