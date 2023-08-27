@@ -5,7 +5,7 @@ export const useRecordStore = defineStore('record', {
     state: () => ({
         WKData: [],
         WKSetData: null,
-        tempRoutineStorage: []
+        tempRoutineStorage: {}
     }),
     actions: {
         completeWorkingOut() {

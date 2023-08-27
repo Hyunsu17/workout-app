@@ -82,6 +82,8 @@ export default {
         let i = 0;
         if (temp.workoutList.length === 0) {
           temp.addToList(key, [new WKSetData(1, false, 10)])
+          this.$router.push({name:'AddRoutine',state:{index: this.tempRoutineStorage.workoutList.length}})
+          console.log('추가완료')
         } else {
           for (i = 0; i < temp.workoutList.length; i++) {
             if (temp.workoutList[i].workoutName === key) {
@@ -93,7 +95,7 @@ export default {
             temp.addToList(key, [new WKSetData(1, false, 10)])
             alert('추가완료')
             console.log(this.tempRoutineStorage)
-            this.$router.push('/add-routine')
+            this.$router.push({name:'AddRoutine',state:{index: this.tempRoutineStorage.workoutList.length}})
           }
         }
       }

@@ -111,6 +111,8 @@ export default {
         this.$emit('', record)
       }
     }
+  },updated() {
+    console.log('rerender child1')
   }
   , methods: {
     onMethodRequest({ methodName, param }) {

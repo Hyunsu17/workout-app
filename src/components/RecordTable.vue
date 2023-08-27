@@ -9,7 +9,7 @@
           class="text-center text-h3  pa-7"
           style="position: relative;
 ">
-        {{ idx+1 }}
+        {{ idx + 1 }}
       </v-card-subtitle>
 
     </v-col>
@@ -39,12 +39,16 @@
 export default {
   name: "RecordTable",
   data: () => ({
-    currentStatus:false
+    currentStatus: false
   }),
   created() {
     this.currentStatus = this.radioStatus
   },
+  beforeUpdate() {
+    console.log('hello')
+  },
   updated() {
+    console.log(this.radioStatus)
     this.currentStatus = this.radioStatus
   },
   props: {
@@ -56,7 +60,7 @@ export default {
     setTrue() {
       this.currentStatus = true
     },
-    returnValue(){
+    returnValue() {
       return this.currentStatus
     }
   }
