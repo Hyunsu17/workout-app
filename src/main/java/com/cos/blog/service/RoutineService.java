@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.beans.Transient;
 import java.util.List;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +20,13 @@ public class RoutineService {
     private final WorkoutElementService workoutElementService;
     private  final WorkoutSetService workoutSetService;
 
-    public List<Routine> getRoutine(User user) {
+    public List<Routine> getRoutineByUser(User user) {
         return routineRepository.findAllByUser(user);
     }
 
-    public Routine getSpecificRoutineByName(User user, String name) {
-        return routineRepository.findByUserAndName(user, name);
+    public Routine getRoutineByUserAndName(User user, String name) {
+        Routine routine = routineRepository.findByUserAndName(user, name).orElseThrow(()-> new EntityNotFoundException());
+        return routine;
     }
 
     @Transactional
@@ -37,12 +35,9 @@ public class RoutineService {
         workoutElementService.saveMultipleElements(workoutElements);
         workoutSetService.saveMultipleSet(workoutSets);
     }
-    public void deleteRoutine(String name){
-        Routine routine = routineRepository.findByName(name).orElseThrow(EntityNotFoundException::new);
+    public void deleteRoutine(Routine routine){
 
-        routine.getWorkoutElementList().forEach(exercise ->{
-            exercise.getWorkoutSetList().clear();
-        });
+        routine.getWorkoutElementList().forEach(exercise -> exercise.getWorkoutSetList().clear());
         routine.getWorkoutElementList().clear();
 
         routineRepository.delete(routine);

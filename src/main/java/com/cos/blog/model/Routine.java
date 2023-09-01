@@ -1,5 +1,6 @@
 package com.cos.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Routine {
     @JoinColumn(name = "USER_SQ")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "routine" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutElement> workoutElementList;
 

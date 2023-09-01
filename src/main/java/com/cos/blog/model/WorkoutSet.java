@@ -1,5 +1,6 @@
 package com.cos.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class WorkoutSet {
     @Column(name = "SET_ST")
     private boolean status;
 
+    @JsonIgnore
     @ManyToOne
     private WorkoutElement workOutElement;
 

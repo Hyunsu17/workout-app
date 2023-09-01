@@ -1,7 +1,6 @@
 package com.cos.blog.controller.api;
 
 import com.cos.blog.common.JsonBinder;
-import com.cos.blog.common.JsonKeyName;
 import com.cos.blog.model.Routine;
 import com.cos.blog.model.User;
 import com.cos.blog.model.WorkoutElement;
@@ -10,16 +9,12 @@ import com.cos.blog.service.RoutineService;
 import com.cos.blog.service.UserService;
 import com.cos.blog.service.WorkoutElementService;
 import com.cos.blog.service.WorkoutSetService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,13 +46,11 @@ public class RoutineApiController {
                     .build();
 
             bufferedWorkoutElements = JsonBinder.JsonListToModelList(saveObj, WorkoutElement.class);
-            bufferedWorkoutElements.forEach((element) -> {
-                workoutElements.add(WorkoutElement.builder()
-                        .workoutName(element.getWorkoutName())
-                        .routine(routine)
-                        .workoutSetList(new ArrayList<>())
-                        .build());
-            });
+            bufferedWorkoutElements.forEach((element) -> workoutElements.add(WorkoutElement.builder()
+                    .workoutName(element.getWorkoutName())
+                    .routine(routine)
+                    .workoutSetList(new ArrayList<>())
+                    .build()));
 
             JsonNode newNode = saveObj.get("workoutSet");
             for (JsonNode jsa : newNode) {
@@ -90,8 +83,29 @@ public class RoutineApiController {
         return ResponseEntity.ok().body("Successfully Created");
     }
 
-    public ResponseEntity<Object> deleteRoutine(String name){
-        routineService.
+    @DeleteMapping("/routine")
+    public ResponseEntity<Object> deleteRoutine(@RequestParam String userName,@RequestParam String routineName){
+        try{
+            User user = userService.회원찾기(userName);
+            Routine targetRoutine = routineService.getRoutineByUserAndName(user, routineName);
+            routineService.deleteRoutine(targetRoutine);
+        }
+        catch (EntityNotFoundException e){
+            return ResponseEntity.badRequest().body("there is no Routine named like"+ routineName);
+        }
+        catch (Exception e){
+            return ResponseEntity.internalServerError().body("Sorry...There is some Error");
+        }
+        return ResponseEntity.ok().body("Successfully Deleted");
+    }
+    @DeleteMapping("/delete-test")
+    public List<String> messageTest(@RequestParam String userName, @RequestParam String routineName){
+        System.out.println(userName);
+        System.out.println(routineName);
+        List<String> arr = new ArrayList<>();
+        arr.add(userName);
+        arr.add(routineName);
+        return arr;
     }
 
     private WorkoutElement getElement(List<WorkoutElement> workoutElements, String value){

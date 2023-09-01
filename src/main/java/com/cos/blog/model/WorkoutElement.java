@@ -1,5 +1,6 @@
 package com.cos.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -24,9 +25,11 @@ public class WorkoutElement {
     private String workoutName;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "ROUTINE_SQ")
     private Routine routine;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "workOutElement", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutSet> workoutSetList;
 }

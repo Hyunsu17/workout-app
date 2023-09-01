@@ -10,7 +10,5 @@ import java.util.Optional;
 public interface RoutineRepository extends JpaRepository<Routine, Integer> {
     public List<Routine> findAllByUser(User user);
 
-    public Routine findByUserAndName(User user, String name);
-
-    public Optional<Routine> findByName(String name);
+    public Optional<Routine> findByUserAndName(User user, String name);
 }

@@ -29,17 +29,13 @@ public class UserController {
     private final RoutineService routineService;
     private final UserService userService;
     private final WorkoutElementService workOutElementService;
-
     private final WorkoutSetService workOutSetService;
 
     @PostMapping("/test")
     public List<Routine> routineList(@RequestBody User user) {
-        System.out.println("*************************************" + user.getUsername());
-        User findedUser = userService.회원찾기(user.getUsername());
-        for (Routine ro : routineService.getRoutine(findedUser)) {
-            System.out.println(ro.getName());
-        }
-        return routineService.getRoutine(findedUser);
+        User foundUser = userService.회원찾기(user.getUsername());
+        System.out.println(user.getUsername());
+        return routineService.getRoutineByUser(foundUser);
     }
 
     @PostMapping("/test2")
@@ -57,7 +53,7 @@ public class UserController {
         routine = JsonBinder.JsonToModel(saveObj, Routine.class);
 
         User foundUser = userService.회원찾기(user.getUsername());
-        Routine specificRoutine = routineService.getSpecificRoutineByName(foundUser, routine.getName());
+        Routine specificRoutine = routineService.getRoutineByUserAndName(foundUser, routine.getName());
         return workOutElementService.getWorkOutElementByRoutine(specificRoutine);
     }
 
@@ -70,15 +66,8 @@ public class UserController {
         routine = JsonBinder.JsonToModel(saveObj, Routine.class);
 
         User foundUser = userService.회원찾기(user.getUsername());
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@routine: "+routine.getName()+"@@@@@@@@@@@@@@@@@@@");
-        Routine specificRoutine = routineService.getSpecificRoutineByName(foundUser, routine.getName());
-        System.out.println(specificRoutine.toString());
+        Routine specificRoutine = routineService.getRoutineByUserAndName(foundUser, routine.getName());
         return workOutSetService.findAllSetByRoutine(specificRoutine);
-    }
-
-    @PostMapping("/api/exercise")
-    public ResponseEntity<Object> saveExercises(@RequestBody JsonNode saveObj){
-        return ResponseEntity.ok().body("Successfully Created");
     }
 
 }
