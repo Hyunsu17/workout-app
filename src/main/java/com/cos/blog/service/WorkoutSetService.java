@@ -15,24 +15,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkoutSetService {
 
-    private final WorkoutSetRepository workOutSetRepository;
+    private final WorkoutSetRepository workoutSetRepository;
 
     private final WorkoutElementRepository workOutElementRepository;
 
-    private List<WorkoutSet> findAllSetByWorkOutElement(WorkoutElement workOutElement) {
-        return workOutSetRepository.findAllByWorkOutElement(workOutElement);
+    private List<WorkoutSet> findAllSetByWorkoutElement(WorkoutElement workOutElement) {
+        return workoutSetRepository.findAllByWorkoutElement(workOutElement);
     }
     public List<List<WorkoutSet>> findAllSetByRoutine(Routine routine){
         List<WorkoutElement> workoutElementsList = workOutElementRepository.findByRoutine(routine);
         List<List<WorkoutSet>> retList = new ArrayList<>();
         for(WorkoutElement idxWkElm: workoutElementsList){
-            List<WorkoutSet> workoutSetList = findAllSetByWorkOutElement(idxWkElm);
+            List<WorkoutSet> workoutSetList = findAllSetByWorkoutElement(idxWkElm);
             retList.add(workoutSetList);
         }
         return retList;
     }
 
     public void saveMultipleSet(List<WorkoutSet> workoutSets){
-        workOutSetRepository.saveAll(workoutSets);
+        workoutSetRepository.saveAll(workoutSets);
     }
 }

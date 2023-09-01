@@ -25,15 +25,12 @@ public class RoutineService {
     }
 
     public Routine getRoutineByUserAndName(User user, String name) {
-        Routine routine = routineRepository.findByUserAndName(user, name).orElseThrow(()-> new EntityNotFoundException());
-        return routine;
+        return routineRepository.findByUserAndName(user, name).orElseThrow(EntityNotFoundException::new);
     }
 
     @Transactional
     public void saveRoutine(Routine routine, List<WorkoutElement> workoutElements, List<WorkoutSet> workoutSets) {
         routineRepository.save(routine);
-        workoutElementService.saveMultipleElements(workoutElements);
-        workoutSetService.saveMultipleSet(workoutSets);
     }
     public void deleteRoutine(Routine routine){
 

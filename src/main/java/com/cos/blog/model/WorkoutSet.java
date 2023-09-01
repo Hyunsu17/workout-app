@@ -30,7 +30,7 @@ public class WorkoutSet {
 
     @JsonIgnore
     @ManyToOne
-    private WorkoutElement workOutElement;
+    private WorkoutElement workoutElement;
 
     protected WorkoutSet() {}
 

@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface WorkoutSetRepository extends JpaRepository<WorkoutSet, Integer> {
 
-    List<WorkoutSet> findAllByWorkOutElement(WorkoutElement workOutElement);
+    List<WorkoutSet> findAllByWorkoutElement(WorkoutElement workOutElement);
 }

@@ -59,18 +59,19 @@ public class RoutineApiController {
                 boolean status = jsa.get("status").asBoolean();
                 int weight = jsa.get("weight").asInt();
                 WorkoutElement workoutElement = WorkoutElement.builder().workoutName(elementName).build();
-                bufferedWorkoutSets.add(WorkoutSet.builder().reps(reps).status(status).weight(weight).workOutElement(workoutElement).build());
+                bufferedWorkoutSets.add(WorkoutSet.builder().reps(reps).status(status).weight(weight).workoutElement(workoutElement).build());
             }
 
             bufferedWorkoutSets.forEach((element) -> {
-                WorkoutElement temp = getElement(workoutElements, element.getWorkOutElement().getWorkoutName());
-                temp.getWorkoutSetList().add(element);
-                workoutSets.add(WorkoutSet.builder()
-                        .workOutElement(temp)
+                WorkoutElement temp = getElement(workoutElements, element.getWorkoutElement().getWorkoutName());
+                WorkoutSet workoutSet = WorkoutSet.builder()
+                        .workoutElement(temp)
                         .status(element.getStatus())
                         .reps(element.getReps())
                         .weight(element.getWeight())
-                        .build());
+                        .build();
+                temp.getWorkoutSetList().add(workoutSet);
+                workoutSets.add(workoutSet);
             });
 
             routine.setWorkoutElementList(workoutElements);
@@ -97,15 +98,6 @@ public class RoutineApiController {
             return ResponseEntity.internalServerError().body("Sorry...There is some Error");
         }
         return ResponseEntity.ok().body("Successfully Deleted");
-    }
-    @DeleteMapping("/delete-test")
-    public List<String> messageTest(@RequestParam String userName, @RequestParam String routineName){
-        System.out.println(userName);
-        System.out.println(routineName);
-        List<String> arr = new ArrayList<>();
-        arr.add(userName);
-        arr.add(routineName);
-        return arr;
     }
 
     private WorkoutElement getElement(List<WorkoutElement> workoutElements, String value){

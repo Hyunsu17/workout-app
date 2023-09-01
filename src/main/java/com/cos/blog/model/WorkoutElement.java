@@ -30,6 +30,6 @@ public class WorkoutElement {
     private Routine routine;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "workOutElement", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workoutElement", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutSet> workoutSetList;
 }
