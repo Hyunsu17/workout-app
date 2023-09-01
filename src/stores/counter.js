@@ -30,6 +30,13 @@ export const useRecordStore = defineStore('record', {
                 return rep
             })
         },
+        deleteCall(url, params) {
+            return axios.delete(url, params).catch((error) => {
+                console.log(error)
+            }).then((rep) => {
+                return rep
+            })
+        },
         hasWkListData(name) {
             for (let i = 0; this.WKData.length; i++) {
                 if (this.WKData[i].routineName === name) return true
@@ -73,14 +80,14 @@ export const useRecordStore = defineStore('record', {
             }
             return WKObject.workoutList[_idx].workoutName
         },
-        setTempRoutineStorage(_data){
+        setTempRoutineStorage(_data) {
             this.tempRoutineStorage = _data
         },
-        getTempRoutineStorage(){
+        getTempRoutineStorage() {
             return this.tempRoutineStorage
         },
-        formatTempRoutineStorage(){
-         this.tempRoutineStorage={}
+        formatTempRoutineStorage() {
+            this.tempRoutineStorage = {}
         }
     }
     ,

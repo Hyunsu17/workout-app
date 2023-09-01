@@ -123,6 +123,7 @@
         {{ item.routineName }}
         <v-btn
             style="position: absolute; left: 100% ; transform: translateX(-110%)"
+            @click="DeleteRoutine"
             elevation="0">
           <v-icon
               size="50"
@@ -158,15 +159,16 @@ export default {
     ...mapState(useRecordStore, ['WKData', 'isExercising'])
   },
   methods: {
-    ...mapActions(useRecordStore, ['postCall']),
+    ...mapActions(useRecordStore, ['postCall', 'deleteCall']),
     initRoutine() {
       this.isWorkingOut = this.isExercising
       if (this.WKData) this.testData = this.WKData
     },
-    DeleteRoutine(){
-      this.postCall(()).then().catch()
+    DeleteRoutine() {
+      this.deleteCall('/api/routine', {'userName': 'test', 'routineName': '테스트'}).then(rep => {
+        console.log(rep)
+      })
     }
-
   },
   created() {
     this.initRoutine()
