@@ -30,8 +30,7 @@ public class WorkoutSet {
     @ManyToOne
     private WorkoutElement workOutElement;
 
-    protected WorkoutSet() {
-    }
+    protected WorkoutSet() {}
 
     public boolean getStatus(){
         return this.status;

@@ -15,20 +15,18 @@ import java.util.List;
 public class WorkoutElementService {
     private final WorkoutElementRepository workOutElementRepository;
 
-    public List<WorkoutElement> getWorkOutElementByRoutine(Routine routine){
+    public List<WorkoutElement> getWorkOutElementByRoutine(Routine routine) {
         return workOutElementRepository.findByRoutine(routine);
     }
 
     @Transactional
-    public void saveMultipleElements(List<WorkoutElement> workoutElements){
+    public void saveMultipleElements(List<WorkoutElement> workoutElements) {
         workOutElementRepository.saveAll(workoutElements);
     }
 
-    public WorkoutElement findByWorkoutName(String name){
-        return workOutElementRepository.findByWorkoutName(name);
+    public WorkoutElement findByWorkoutNameAndRoutine(String name, Routine routine) {
+        return workOutElementRepository.findByWorkoutNameAndRoutine(name, routine);
     }
-
-
 
 
 }

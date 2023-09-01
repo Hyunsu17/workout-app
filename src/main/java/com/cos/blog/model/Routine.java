@@ -1,16 +1,15 @@
 package com.cos.blog.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 @ToString
 @Table(name = "TB_WORKOUT_ROUTINE")
 public class Routine {
@@ -20,12 +19,16 @@ public class Routine {
     @Column(name = "ROUTINE_SQ")
     private int ID;
 
-    @Column(name = "ROUTINE_NM")
+    @Column(name = "ROUTINE_NM", unique = true, nullable = false)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "USER_SQ")
     private User user;
+
+    @OneToMany(mappedBy = "routine" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkoutElement> workoutElementList;
+
 
     protected Routine() {
 

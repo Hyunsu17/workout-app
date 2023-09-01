@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -25,4 +26,7 @@ public class WorkoutElement {
     @ManyToOne
     @JoinColumn(name = "ROUTINE_SQ")
     private Routine routine;
+
+    @OneToMany(mappedBy = "workOutElement", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkoutSet> workoutSetList;
 }

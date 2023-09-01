@@ -9,6 +9,6 @@ import java.util.List;
 public interface WorkoutElementRepository extends JpaRepository<WorkoutElement, Integer> {
     List<WorkoutElement> findByRoutine(Routine routine);
 
-    WorkoutElement findByWorkoutName(String name);
+    WorkoutElement findByWorkoutNameAndRoutine(String name,Routine routine);
 
 }

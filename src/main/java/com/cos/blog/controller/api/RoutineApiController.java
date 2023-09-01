@@ -49,16 +49,15 @@ public class RoutineApiController {
             routine = Routine.builder().user(user)
                     .name(bufferedRoutine.getName())
                     .build();
-            routineService.saveRoutine(routine);
 
             bufferedWorkoutElements = JsonBinder.JsonListToModelList(saveObj, WorkoutElement.class);
             bufferedWorkoutElements.forEach((element) -> {
                 workoutElements.add(WorkoutElement.builder()
                         .workoutName(element.getWorkoutName())
-                        .routine(element.getRoutine())
+                        .routine(routine)
+                        .workoutSetList(new ArrayList<>())
                         .build());
             });
-            workoutElementService.saveMultipleElements(workoutElements);
 
             JsonNode newNode = saveObj.get("workoutSet");
             for (JsonNode jsa : newNode) {
@@ -69,24 +68,42 @@ public class RoutineApiController {
                 WorkoutElement workoutElement = WorkoutElement.builder().workoutName(elementName).build();
                 bufferedWorkoutSets.add(WorkoutSet.builder().reps(reps).status(status).weight(weight).workOutElement(workoutElement).build());
             }
+
             bufferedWorkoutSets.forEach((element) -> {
+                WorkoutElement temp = getElement(workoutElements, element.getWorkOutElement().getWorkoutName());
+                temp.getWorkoutSetList().add(element);
                 workoutSets.add(WorkoutSet.builder()
-                        .workOutElement(workoutElementService.findByWorkoutName(element.getWorkOutElement().getWorkoutName()))
+                        .workOutElement(temp)
                         .status(element.getStatus())
                         .reps(element.getReps())
                         .weight(element.getWeight())
                         .build());
             });
 
-            workoutSetService.saveMultipleSet(workoutSets);
-        }
-        catch (Exception e){
-            return ResponseEntity.internalServerError().body("Server Error");
-        }
+            routine.setWorkoutElementList(workoutElements);
+            routineService.saveRoutine(routine, workoutElements, workoutSets);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
         return ResponseEntity.ok().body("Successfully Created");
-
     }
+
+    public ResponseEntity<Object> deleteRoutine(String name){
+        routineService.
+    }
+
+    private WorkoutElement getElement(List<WorkoutElement> workoutElements, String value){
+        for (WorkoutElement item:
+             workoutElements) {
+            if(item.getWorkoutName().equalsIgnoreCase(value)){
+                return item;
+            }
+        }
+        throw new RuntimeException("couldn't find proper WorkoutElement");
+    }
+
 
 
 }

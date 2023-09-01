@@ -70,19 +70,15 @@ public class JsonBInderTest {
             throw new RuntimeException(e);
         }
         JsonNode newNode = rootNode.get("workoutSet");
-        List<WorkoutSet> workoutSets = new ArrayList<>();
-        for (JsonNode jsa : newNode) {
-            String elementName = jsa.get("elementName").asText();
-            int reps = jsa.get("reps").asInt();
-            boolean status = jsa.get("status").asBoolean();
-            int weight = jsa.get("weight").asInt();
-            WorkoutElement workoutElement = WorkoutElement.builder().workoutName(elementName).build();
-            workoutSets.add(WorkoutSet.builder().reps(reps).status(status).weight(weight).workOutElement(workoutElement).build());
-        }
-        for (WorkoutSet workoutSet : workoutSets) {
-            System.out.println(workoutSet.getReps());
-            System.out.println(workoutSet.getWorkOutElement().getWorkoutName());
-        }
+        List<WorkoutElement> bufferedWorkoutElements = new ArrayList<>();
+        List<WorkoutElement> workoutElements = new ArrayList<>();
+        bufferedWorkoutElements = JsonBinder.JsonListToModelList(rootNode, WorkoutElement.class);
+        bufferedWorkoutElements.forEach((element) -> {
+            workoutElements.add(WorkoutElement.builder()
+                    .workoutName(element.getWorkoutName())
+                    .routine(element.getRoutine())
+                    .build());
+        });
 
     }
 }

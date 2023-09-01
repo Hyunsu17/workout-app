@@ -63,8 +63,6 @@ public class JsonBinder {
     public static <T> String mapToEnum(Class<T> clazz) {
         for (JsonKeyName idx : JsonKeyName.values()) {
             String[] strings = clazz.getName().split("\\.");
-            System.out.println(idx.getName());
-            System.out.println(strings[strings.length - 1]);
             if (idx.getName().equalsIgnoreCase(strings[strings.length - 1])) {
                 return idx.getName();
             }
