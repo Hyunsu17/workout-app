@@ -30,8 +30,8 @@ export const useRecordStore = defineStore('record', {
                 return rep
             })
         },
-        deleteCall(url, params) {
-            return axios.delete(url, params).catch((error) => {
+        deleteCall(url,params) {
+            return axios.delete(url,{params:params}).catch((error) => {
                 console.log(error)
             }).then((rep) => {
                 return rep

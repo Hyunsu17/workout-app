@@ -165,7 +165,7 @@ export default {
       if (this.WKData) this.testData = this.WKData
     },
     DeleteRoutine() {
-      this.deleteCall('/api/routine', {'userName': 'test', 'routineName': '테스트'}).then(rep => {
+      this.deleteCall('/api/routine',{userName:'test',routineName:'test'}).then(rep => {
         console.log(rep)
       })
     }
