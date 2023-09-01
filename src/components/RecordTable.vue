@@ -5,7 +5,6 @@
     <v-col
     >
       <v-card-subtitle
-
           class="text-center text-h3  pa-7"
           style="position: relative;
 ">
@@ -19,7 +18,15 @@
           class="text-center text-h3  pa-7"
           style="position: relative;"
       >
-        &nbsp;{{ reps }}
+        <v-text-field
+            variant="solo"
+            flat="true"
+            single-line
+            type="number"
+            class="text-center font-weight-bold"
+            v-model="localReps"
+        >
+        </v-text-field>
       </v-card-subtitle>
 
     </v-col>
@@ -39,16 +46,14 @@
 export default {
   name: "RecordTable",
   data: () => ({
-    currentStatus: false
+    currentStatus: false,
+    localReps: 0,
   }),
   created() {
     this.currentStatus = this.radioStatus
-  },
-  beforeUpdate() {
-    console.log('hello')
+    this.localReps = this.reps
   },
   updated() {
-    console.log(this.radioStatus)
     this.currentStatus = this.radioStatus
   },
   props: {

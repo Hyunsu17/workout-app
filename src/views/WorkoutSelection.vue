@@ -134,7 +134,7 @@ export default {
     callStartWorkingOut() {
       this.startWorkingOut()
     },
-    fetchWKData(name, WKsetData) {
+    fetchWKData(name) {
       const params = {
         user: {
           username: 'test'
@@ -147,12 +147,13 @@ export default {
         console.log(error)
       }).then((rep) => {
         console.log(rep)
-        if (rep.status == 200) return this.parseToWKData(rep, WKsetData)
+        if (rep.status === 200) return this.parseToWKData(rep)
       })
     },
     parseToWKData(rep) {
       const retObject = []
-      for (let i = 0; i < rep.data.length; i++) retObject.push({name: rep.data[i].name})
+      console.log("hello", rep)
+      for (let i = 0; i < rep.data.length; i++) retObject.push({name: rep.data[i].workoutName})
       return retObject
     },
     fetchWKDetailData(name) {
@@ -169,7 +170,7 @@ export default {
         console.log(error)
       }).then((rep) => {
         console.log(rep)
-        if (rep.status == 200) return this.parseToWKSetData(rep)
+        if (rep.status === 200) return this.parseToWKSetData(rep)
       })
     },
     parseToWKSetData(rep) {
@@ -194,10 +195,7 @@ export default {
      * @returns {boolean}
      */
     checkStatus() {
-      if (this.getWKObjectByRoutine(this.name).workoutList.length === 0)
-        return true
-      else
-        return false
+      return this.getWKObjectByRoutine(this.name).workoutList.length === 0;
     },
 
   }
@@ -206,8 +204,10 @@ export default {
     if (this.checkStatus()) {
       this.fetchWKDetailData(this.name)
           .then((WKDetailData) => {
+            console.log(WKDetailData)
             this.fetchWKData(this.name)
                 .then((WKData) => {
+                  console.log(WKData)
                   for (let i = 0; i < WKData.length; i++) {
                     this.addToWKList(this.getRoutineIdxByName(this.name), WKData[i].name, WKDetailData[i])
                   }

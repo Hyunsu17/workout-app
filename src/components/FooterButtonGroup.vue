@@ -32,7 +32,7 @@
     >
       <v-btn
           @click="callCompleteWorkingOut"
-          v-if="this.isExercising"
+          v-if="tempIsExercising"
           width="100%"
           height="200%"
       >
@@ -63,6 +63,14 @@ import {useRecordStore} from "@/stores/counter";
 
 export default {
   name: "FooterButtonGroup",
+  data(){
+    return{
+      tempIsExercising:''
+    }
+  },
+  created() {
+    this.tempIsExercising = this.isExercising
+  },
   computed: {
     ...mapState(useRecordStore, ['isExercising'],)
   },
@@ -70,11 +78,13 @@ export default {
     ...mapActions(useRecordStore, ['completeWorkingOut', 'postCall']),
     callCompleteWorkingOut(params) {
       this.completeWorkingOut()
-      this.postCall('', params).catch((error) => {
-        console.log(error)
-      }).then((rep) => {
-        console.log(rep)
-      })
+      console.log(this.isExercising)
+      this.tempIsExercising = this.isExercising
+      // this.postCall('', params).catch((error) => {
+      //   console.log(error)
+      // }).then((rep) => {
+      //   console.log(rep)
+      // })
     },
 
   }

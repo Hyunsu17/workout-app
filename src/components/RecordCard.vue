@@ -52,7 +52,7 @@
             <v-card-subtitle
                 class="text-h6 text-center font-weight-bold"
             >
-              REP
+              REPS
             </v-card-subtitle>
           </v-col>
           <v-col
@@ -111,8 +111,6 @@ export default {
         this.$emit('', record)
       }
     }
-  },updated() {
-    console.log('rerender child1')
   }
   , methods: {
     onMethodRequest({ methodName, param }) {

@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import {mapState} from "pinia";
+import {mapActions, mapState} from "pinia";
 import {useRecordStore} from "@/stores/counter";
 import FooterButtonGroup from "@/components/FooterButtonGroup.vue";
 
@@ -158,10 +158,15 @@ export default {
     ...mapState(useRecordStore, ['WKData', 'isExercising'])
   },
   methods: {
+    ...mapActions(useRecordStore, ['postCall']),
     initRoutine() {
       this.isWorkingOut = this.isExercising
       if (this.WKData) this.testData = this.WKData
+    },
+    DeleteRoutine(){
+      this.postCall(()).then().catch()
     }
+
   },
   created() {
     this.initRoutine()

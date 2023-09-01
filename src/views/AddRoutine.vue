@@ -1,8 +1,33 @@
 <template>
+
   <div
       v-if="!isEmpty"
   >
+    <v-card class="mx-auto mt-6" color="blue-lighten-5"  max-width="400">
+      <v-card-subtitle
+        class="mt-3 font-weight-black"
+        style="font-size: 17px"
+      >
+        루틴 이름
+      </v-card-subtitle>
+      <v-card-text
+          class="mt-2"
+          style="position: relative; bottom:10px;"
+      >
+        <v-text-field
+            class="elevation-0"
+            density="compact"
+            variant="solo"
+            label="Custom"
+            single-line
+            hide-details
+            v-model="routineName"
+        ></v-text-field>
+      </v-card-text>
+    </v-card>
+
     <v-pagination
+        class="mt-5"
         v-model="idx"
         :length="listLength"
         rounded
@@ -147,7 +172,8 @@ export default {
       idx: 1,
       Routine: null,
       record: null,
-      isEmpty: false
+      isEmpty: false,
+      routineName: ""
     }
   },
   created() {
@@ -165,6 +191,11 @@ export default {
       }
       ,
       immediate: false
+    },
+    routineName:{
+      handler(newVal) {
+        this.tempRoutineStorage.routineName = newVal
+      }
     }
   },
   computed: {
@@ -175,7 +206,7 @@ export default {
     next()
   },
   methods: {
-    ...mapActions(useRecordStore, ['setTempRoutineStorage','postCall']),
+    ...mapActions(useRecordStore, ['setTempRoutineStorage', 'postCall','formatTempRoutineStorage']),
     init() {
       if (history.state.index === undefined) {
         this.idx = 1
@@ -185,15 +216,23 @@ export default {
       }
       if (this.isObjectEmpty(this.tempRoutineStorage)) {
         this.isEmpty = true
-        this.Routine = new WKClass('test-routine')
-      } else {
+        this.Routine = new WKClass(this.routineName)
+        this.setTempRoutineStorage(this.Routine)
+
+      }
+      else if(this.tempRoutineStorage.workoutList.length === 0){
+        this.isEmpty = true
+      }
+      else {
+        console.log(this.tempRoutineStorage)
+        this.routineName = this.tempRoutineStorage.routineName
         this.name = this.tempRoutineStorage.workoutList[this.idx - 1].workoutName
         this.Routine = this.tempRoutineStorage
         this.record = this.tempRoutineStorage.workoutList[this.idx - 1].workoutSetData
         this.isEmpty = false
         this.listLength = this.Routine.workoutList.length
+        this.setTempRoutineStorage(this.Routine)
       }
-      this.setTempRoutineStorage(this.Routine)
     },
     changeAllStatus() {
       this.$refs.recordCard.onMethodRequest({methodName: 'setTrue', param: undefined})
@@ -206,16 +245,19 @@ export default {
       this.record.pop()
     },
     savePreviousStatus() {
-      const record = this.record
       const changedRecord = this.$refs.recordCard.onMethodRequest({methodName: 'returnValue', param: undefined})
-      for (let i = 0; i < record.length; i++) {
-        record[i].status = changedRecord[i]
+      console.log(changedRecord)
+      console.log(this.record)
+      for (let i = 0; i < this.record.length; i++) {
+        this.record[i].status = changedRecord[i]
       }
     },
     isObjectEmpty(obj) {
+      console.log("text",obj)
       return Object.keys(obj).length === 0;
     },
-    callCreateRoutine(){
+    callCreateRoutine() {
+      console.log(this.changeFormat())
       this.postCall('/api/routine', this.changeFormat()).then((rep) => {
         if (rep.status === 200) {
           console.log('good')
@@ -223,32 +265,33 @@ export default {
       }).catch((err)=>{
         console.log(err)
       })
+      this.formatTempRoutineStorage()
     },
-    changeFormat(){
+    changeFormat() {
       const dataFormat = {
         user: {},
         routine: {},
-        workoutList: [],
+        workoutElement: [],
         workoutSet: []
       }
 
       dataFormat.user.username = 'test'
-      dataFormat.routine.name = "나만의 커스텀"
-      this.tempRoutineStorage.workoutList.forEach(item => dataFormat.workoutList.push({workoutName: item.workoutName}))
-      for(let i; i< this.tempRoutineStorage.workoutList.length;i++){
-        for(let j; j<this.tempRoutineStorage.workoutList[i].length; j++){
+      dataFormat.routine.name = this.routineName
+      this.tempRoutineStorage.workoutList.forEach(item => dataFormat.workoutElement.push({workoutName: item.workoutName}))
+
+      console.log(this.tempRoutineStorage.workoutList[0])
+      for (let i = 0; i < this.tempRoutineStorage.workoutList.length; i++) {
+        for (let j = 0; j < this.tempRoutineStorage.workoutList[i].workoutSetData.length; j++) {
           dataFormat.workoutSet.push({
-            elementName: this.tempRoutineStorage.workoutList[i].workoutSetData.workoutName,
-            reps:this.tempRoutineStorage.workoutList[i].workoutSetData.reps,
-            status: this.tempRoutineStorage.workoutList[i].workoutSetData.status,
-            weight: this.tempRoutineStorage.workoutList[i].workoutSetData.weight
+            elementName: this.tempRoutineStorage.workoutList[i].workoutName,
+            reps: this.tempRoutineStorage.workoutList[i].workoutSetData[j].reps,
+            status: this.tempRoutineStorage.workoutList[i].workoutSetData[j].status,
+            weight: this.tempRoutineStorage.workoutList[i].workoutSetData[j].weight
           })
         }
       }
-
       return dataFormat
     },
-
   }
 }
 </script>

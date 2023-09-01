@@ -5,7 +5,8 @@ export const useRecordStore = defineStore('record', {
     state: () => ({
         WKData: [],
         WKSetData: null,
-        tempRoutineStorage: {}
+        tempRoutineStorage: {},
+        isExercising: false
     }),
     actions: {
         completeWorkingOut() {
@@ -59,7 +60,6 @@ export const useRecordStore = defineStore('record', {
          */
         getWKObjectByRoutine(_routineName) {
             for (let i = 0; i < this.WKData.length; i++) {
-                console.log(this.WKData[i].routineName)
                 if (this.WKData[i].routineName === _routineName)
                     return this.WKData[i]
             }
@@ -67,7 +67,6 @@ export const useRecordStore = defineStore('record', {
             return null
         },
         getWKNameByWKIdx(_routineName, _idx) {
-            console.log(_routineName)
             const WKObject = this.getWKObjectByRoutine(_routineName)
             if (WKObject === null) {
                 console.log('Sorry WorkOut data is undefined')
@@ -79,6 +78,9 @@ export const useRecordStore = defineStore('record', {
         },
         getTempRoutineStorage(){
             return this.tempRoutineStorage
+        },
+        formatTempRoutineStorage(){
+         this.tempRoutineStorage={}
         }
     }
     ,
