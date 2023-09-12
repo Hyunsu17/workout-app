@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +26,20 @@ public class RoutineService {
     }
 
     public Routine getRoutineByUserAndName(User user, String name) {
-        return routineRepository.findByUserAndName(user, name).orElseThrow(EntityNotFoundException::new);
+        return routineRepository.findByUserAndName(user, name).orElseThrow(()-> new EntityNotFoundException("there is no Entity"));
+    }
+
+    public Routine getOrCreateRoutineByUserAndName(User user, String name) {
+        Optional<Routine> routineOptional = routineRepository.findByUserAndName(user, name);
+        return routineOptional.orElseGet(() -> Routine.builder().name(name).user(user).build());
     }
 
     @Transactional
     public void saveRoutine(Routine routine, List<WorkoutElement> workoutElements, List<WorkoutSet> workoutSets) {
         routineRepository.save(routine);
     }
+
+    @Transactional
     public void deleteRoutine(Routine routine){
 
         routine.getWorkoutElementList().forEach(exercise -> exercise.getWorkoutSetList().clear());

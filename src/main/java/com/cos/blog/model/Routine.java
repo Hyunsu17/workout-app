@@ -31,8 +31,7 @@ public class Routine {
     @OneToMany(mappedBy = "routine" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutElement> workoutElementList;
 
-
-    protected Routine() {
+    public Routine() {
 
     }
 }

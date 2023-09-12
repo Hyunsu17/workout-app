@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,7 +29,7 @@ public class RoutineApiController {
     private final WorkoutSetService workoutSetService;
 
     @PostMapping("/routine")
-    public ResponseEntity<Object> createRoutine(@RequestBody JsonNode saveObj) {
+    public ResponseEntity<Object> saveRoutine(@RequestBody JsonNode saveObj) {
         Routine bufferedRoutine, routine;
         User bufferedUser, user;
         List<WorkoutElement> bufferedWorkoutElements;
@@ -36,14 +37,15 @@ public class RoutineApiController {
         List<WorkoutSet> bufferedWorkoutSets = new ArrayList<>();
         List<WorkoutSet> workoutSets = new ArrayList<>();
 
+
         try {
             bufferedUser = JsonBinder.JsonToModel(saveObj, User.class);
             user = userService.회원찾기(bufferedUser.getUsername());
 
             bufferedRoutine = JsonBinder.JsonToModel(saveObj, Routine.class);
-            routine = Routine.builder().user(user)
-                    .name(bufferedRoutine.getName())
-                    .build();
+
+
+            routine =routineService.getOrCreateRoutineByUserAndName(user, bufferedRoutine.getName());
 
             bufferedWorkoutElements = JsonBinder.JsonListToModelList(saveObj, WorkoutElement.class);
             bufferedWorkoutElements.forEach((element) -> workoutElements.add(WorkoutElement.builder()
@@ -81,7 +83,7 @@ public class RoutineApiController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
-        return ResponseEntity.ok().body("Successfully Created");
+        return ResponseEntity.ok().body("Successfully saved!");
     }
 
     @DeleteMapping("/routine")
