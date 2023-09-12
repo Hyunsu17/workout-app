@@ -130,7 +130,7 @@ export default {
   }
   ,
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'setWkDetailData', 'hasWkListData', 'addToWKList', 'getRoutineIdxByName', 'getWKObjectByRoutine', 'startWorkingOut']),
+    ...mapActions(useRecordStore, ['postCall', 'hasWkListData', 'addToWKList', 'getRoutineIdxByName', 'getWKObjectByRoutine', 'startWorkingOut']),
     callStartWorkingOut() {
       this.startWorkingOut()
     },

@@ -50,7 +50,7 @@ import WKSetData from "@/common/WKSetData";
 export default {
   name: "WorkoutList",
   computed: {
-    ...mapState(useRecordStore, ['tempRoutineStorage'])
+    ...mapState(useRecordStore, ['addRoutineTemp', 'updateRoutineTemp'])
   },
   data() {
     return {
@@ -65,24 +65,39 @@ export default {
       status: false
     }
   },
+  props: {
+    origin: {
+      validator: function (value) {
+        return ['addRoutine', 'updateRoutine'].indexOf(value) !== -1
+      }
+
+    }
+  },
   created() {
     this.tempList = this.AllList['part']
   }
   ,
   methods: {
-    ...mapActions(useRecordStore, ['getTempRoutineStorage'])
+    ...mapActions(useRecordStore, ['getAddRoutineTemp'])
     ,
     clickEvent(key) {
+
+      const origins = {
+        addRoutine: this.addRoutineTemp,
+        updateRoutine: this.updateRoutineTemp
+      }
+      let tempRoutine = origins[this.origin]
+
+
       if (this.status === false) {
         this.status = true
         this.tempList = this.AllList[key]
-      }
-      else {
-        let temp = this.tempRoutineStorage
+      } else {
+        let temp = tempRoutine
         let i = 0;
         if (temp.workoutList.length === 0) {
           temp.addToList(key, [new WKSetData(1, false, 10)])
-          this.$router.push({name:'AddRoutine',state:{index: this.tempRoutineStorage.workoutList.length}})
+          this.$router.push({name: 'AddRoutine', state: {index: tempRoutine.workoutList.length}})
           console.log('추가완료')
         } else {
           for (i = 0; i < temp.workoutList.length; i++) {
@@ -94,8 +109,8 @@ export default {
           if (i === temp.workoutList.length) {
             temp.addToList(key, [new WKSetData(1, false, 10)])
             alert('추가완료')
-            console.log(this.tempRoutineStorage)
-            this.$router.push({name:'AddRoutine',state:{index: this.tempRoutineStorage.workoutList.length}})
+            console.log(tempRoutine)
+            this.$router.push({name: 'AddRoutine', state: {index: tempRoutine.workoutList.length}})
           }
         }
       }

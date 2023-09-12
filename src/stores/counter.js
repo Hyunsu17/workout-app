@@ -5,7 +5,8 @@ export const useRecordStore = defineStore('record', {
     state: () => ({
         WKData: [],
         WKSetData: null,
-        tempRoutineStorage: {},
+        addRoutineTemp: {},
+        updateRoutineTemp: {},
         isExercising: false
     }),
     actions: {
@@ -80,14 +81,22 @@ export const useRecordStore = defineStore('record', {
             }
             return WKObject.workoutList[_idx].workoutName
         },
-        setTempRoutineStorage(_data) {
-            this.tempRoutineStorage = _data
+        setAddRoutineTemp(_data) {
+            this.addRoutineTemp = _data
         },
-        getTempRoutineStorage() {
-            return this.tempRoutineStorage
+        setUpdateRoutineTemp(_data){
+            this.updateRoutineTemp = _data
+        },
+        getAddRoutineTemp() {
+            return this.addRoutineTemp
         },
         formatTempRoutineStorage() {
-            this.tempRoutineStorage = {}
+            this.addRoutineTemp = {}
+        },
+        formatWKData(){
+            this.WKData = null
+            this.WKData = []
+            console.log(this.WKData)
         }
     }
     ,

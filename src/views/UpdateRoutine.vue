@@ -5,8 +5,8 @@
   >
     <v-card class="mx-auto mt-6" color="blue-lighten-5"  max-width="400">
       <v-card-subtitle
-        class="mt-3 font-weight-black"
-        style="font-size: 17px"
+          class="mt-3 font-weight-black"
+          style="font-size: 17px"
       >
         루틴 이름
       </v-card-subtitle>
@@ -127,13 +127,13 @@
 "
   >
     <v-btn
-        v-if="!isEmpty"
+        v-if="isEmpty"
         @click="callCreateRoutine"
         class="ml-6"
         width="200px"
         height="100px"
     >
-      루틴 저장
+      루틴 업데이트
     </v-btn>
     <router-link to="/workout-list"
                  style="
@@ -165,7 +165,7 @@ import {useRecordStore} from "@/stores/counter";
 
 export default {
   components: {RecordCard},
-  name: "AddRoutine",
+  name: "UpdateRoutine",
   data() {
     return {
       listLength: 0,
@@ -177,6 +177,7 @@ export default {
       routineName: ""
     }
   },
+  props: ['updatedRoutineName'],
   created() {
     this.init()
   },
@@ -185,8 +186,8 @@ export default {
       handler(newVal) {
         if (newVal !== undefined) {
           this.savePreviousStatus(newVal)
-          this.name = this.addRoutineTemp.workoutList[newVal - 1].workoutName
-          this.record = this.addRoutineTemp.workoutList[newVal - 1].workoutSetData
+          this.name = this.updateRoutineTemp.workoutList[newVal - 1].workoutName
+          this.record = this.updateRoutineTemp.workoutList[newVal - 1].workoutSetData
           console.log(this.record)
         }
       }
@@ -195,45 +196,62 @@ export default {
     },
     routineName:{
       handler(newVal) {
-        this.addRoutineTemp.routineName = newVal
+        this.updateRoutineTemp.routineName = newVal
       }
     }
   },
   computed: {
-    ...mapState(useRecordStore, ['addRoutineTemp'])
+    ...mapState(useRecordStore, ['updateRoutineTemp'])
   },
   beforeRouteLeave(to, from, next) {
     // this.savePreviousStatus()
     next()
   },
   methods: {
-    ...mapActions(useRecordStore, ['setAddRoutineTemp', 'postCall','formatTempRoutineStorage']),
+    ...mapActions(useRecordStore, ['setUpdateRoutineTemp', 'postCall','formatTempRoutineStorage','getWKObjectByRoutine']),
     init() {
+
+
       if (history.state.index === undefined) {
         this.idx = 1
       } else {
         this.idx = history.state.index
         this.listLength = this.idx
       }
-      if (this.isObjectEmpty(this.addRoutineTemp)) {
-        this.isEmpty = true
-        this.Routine = new WKClass(this.routineName)
-        this.setAddRoutineTemp(this.Routine)
 
+
+      if (this.isObjectEmpty(this.updateRoutineTemp)) {
+        this.fetchRoutine(this.updatedRoutineName)
+        this.initLocalValue(this.updateRoutineTemp.routineName,
+            this.updateRoutineTemp.workoutList[this.idx - 1].workoutName,
+            this.Routine = this.updateRoutineTemp,
+            this.record = this.updateRoutineTemp.workoutList[this.idx - 1].workoutSetData,
+            this.Routine.workoutList.length
+        )
       }
-      else if(this.addRoutineTemp.workoutList.length === 0){
+      else if(this.updateRoutineTemp.workoutList.length === 0){
         this.isEmpty = true
+        console.log('오류입니다.(Update항목은 List길이가 ㅇ이면 안됩니다.)')
       }
       else {
-        console.log(this.addRoutineTemp)
-        this.routineName = this.addRoutineTemp.routineName
-        this.name = this.addRoutineTemp.workoutList[this.idx - 1].workoutName
-        this.Routine = this.addRoutineTemp
-        this.record = this.addRoutineTemp.workoutList[this.idx - 1].workoutSetData
+        this.initLocalValue(this.updateRoutineTemp.routineName,
+            this.updateRoutineTemp.workoutList[this.idx - 1].workoutName,
+            this.Routine = this.updateRoutineTemp,
+            this.record = this.updateRoutineTemp.workoutList[this.idx - 1].workoutSetData,
+            this.Routine.workoutList.length
+        )
         this.isEmpty = false
-        this.listLength = this.Routine.workoutList.length
-        this.setAddRoutineTemp(this.Routine)
       }
+    },
+    fetchRoutine(_routineName){
+      this.setUpdateRoutineTemp(this.getWKObjectByRoutine(_routineName))
+    },
+    initLocalValue(_routineName,_name, _routine, _record, _listLength){
+      this.routineName = _routineName
+      this.name= _name
+      this.Routine = _routine
+      this.record = _record
+      this.listLength = _listLength
     },
     changeAllStatus() {
       this.$refs.recordCard.onMethodRequest({methodName: 'setTrue', param: undefined})
@@ -278,16 +296,16 @@ export default {
 
       dataFormat.user.username = 'test'
       dataFormat.routine.name = this.routineName
-      this.addRoutineTemp.workoutList.forEach(item => dataFormat.workoutElement.push({workoutName: item.workoutName}))
+      this.updateRoutineTemp.workoutList.forEach(item => dataFormat.workoutElement.push({workoutName: item.workoutName}))
 
-      console.log(this.addRoutineTemp.workoutList[0])
-      for (let i = 0; i < this.addRoutineTemp.workoutList.length; i++) {
-        for (let j = 0; j < this.addRoutineTemp.workoutList[i].workoutSetData.length; j++) {
+      console.log(this.updateRoutineTemp.workoutList[0])
+      for (let i = 0; i < this.updateRoutineTemp.workoutList.length; i++) {
+        for (let j = 0; j < this.updateRoutineTemp.workoutList[i].workoutSetData.length; j++) {
           dataFormat.workoutSet.push({
-            elementName: this.addRoutineTemp.workoutList[i].workoutName,
-            reps: this.addRoutineTemp.workoutList[i].workoutSetData[j].reps,
-            status: this.addRoutineTemp.workoutList[i].workoutSetData[j].status,
-            weight: this.addRoutineTemp.workoutList[i].workoutSetData[j].weight
+            elementName: this.updateRoutineTemp.workoutList[i].workoutName,
+            reps: this.updateRoutineTemp.workoutList[i].workoutSetData[j].reps,
+            status: this.updateRoutineTemp.workoutList[i].workoutSetData[j].status,
+            weight: this.updateRoutineTemp.workoutList[i].workoutSetData[j].weight
           })
         }
       }

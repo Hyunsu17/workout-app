@@ -121,17 +121,52 @@
           style="background-color:skyblue; width: 100%; height:200%">
         <v-icon size="50" icon="mdi-lightning-bolt"></v-icon>
         {{ item.routineName }}
-        <v-btn
-            style="position: absolute; left: 100% ; transform: translateX(-110%)"
-            @click="DeleteRoutine"
-            elevation="0">
-          <v-icon
-              size="50"
-              class="mt-n11"
-              icon="mdi-settings-helper"
-          ></v-icon>
-        </v-btn>
+        <v-menu
+            open-on-hover
+            :close-on-content-click="false"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn
+                v-bind="props"
+                style="position: absolute; left: 100% ; transform: translateX(-110%)"
+                elevation="0">
+              <v-icon
+                  size="50"
+                  class="mt-n11"
+                  icon="mdi-settings-helper"
+              ></v-icon>
+            </v-btn>
+          </template>
+          <v-btn>update</v-btn>
+          <v-dialog
+              v-model="dialog"
+          >
+            <template v-slot:activator="{ props }">
+              <v-btn
+                  v-bind="props">
+                delete
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                정말로 삭제 하시겠습니까?
+              </v-card-text>
+              <v-card-actions
+                  class="justify-end"
+              >
+                <v-btn color="green-accent-4" @click="deleteRoutine('test', item.routineName)">
+                  예
+                </v-btn>
+                <v-btn color="red-darken-1" @click="dialog = false">
+                  아니오
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+
+          </v-dialog>
+        </v-menu>
       </v-btn>
+
     </router-link>
   </v-row>
   <div style="height: 30%"/>
@@ -144,12 +179,14 @@
 import {mapActions, mapState} from "pinia";
 import {useRecordStore} from "@/stores/counter";
 import FooterButtonGroup from "@/components/FooterButtonGroup.vue";
+import WKClass from "@/common/WKClass";
 
 export default {
   name: "WorkoutRoutine"
   ,
   components: {FooterButtonGroup},
   data: () => ({
+    dialog: false,
     nameList: ['롤', '플'],
     testData: [''],
     order: ['최근 수행 순', '빈도 순', '전체 세트 순', '전체 볼륨 순', '가나다 순', '유저 세팅'],
@@ -159,16 +196,31 @@ export default {
     ...mapState(useRecordStore, ['WKData', 'isExercising'])
   },
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'deleteCall']),
+    ...mapActions(useRecordStore, ['postCall', 'deleteCall','formatWKData','pushToWorkoutData']),
     initRoutine() {
       this.isWorkingOut = this.isExercising
       if (this.WKData) this.testData = this.WKData
     },
-    DeleteRoutine() {
-      this.deleteCall('/api/routine',{userName:'test',routineName:'test'}).then(rep => {
-        console.log(rep)
+    deleteRoutine(userName, routineName) {
+       this.deleteCall('/api/routine', {userName: userName, routineName: routineName}).then(rep => {
+         this.getRoutine()
+       })
+      this.dialog = false
+    },
+    updateRoutine(userName, routineName) {
+
+    },
+    getRoutine() {
+      this.postCall('/api/test', {username: 'test'}).then((rep) => {
+        if (rep.status === 200) {
+          this.formatWKData()
+          this.testData = []
+          for (let i = 0; i < rep.data.length; i++) this.pushToWorkoutData(new WKClass(rep.data[i].name))
+          this.testData = this.WKData
+        }
+
       })
-    }
+    },
   },
   created() {
     this.initRoutine()
