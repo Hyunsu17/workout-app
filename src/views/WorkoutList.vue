@@ -68,7 +68,7 @@ export default {
   props: {
     origin: {
       validator: function (value) {
-        return ['addRoutine', 'updateRoutine'].indexOf(value) !== -1
+        return ['AddRoutine', 'UpdateRoutine'].indexOf(value) !== -1
       }
 
     }
@@ -81,14 +81,14 @@ export default {
     ...mapActions(useRecordStore, ['getAddRoutineTemp'])
     ,
     clickEvent(key) {
-
       const origins = {
-        addRoutine: this.addRoutineTemp,
-        updateRoutine: this.updateRoutineTemp
+        AddRoutine: this.addRoutineTemp,
+        UpdateRoutine: this.updateRoutineTemp
       }
+      console.log(this.origin)
+      console.log(this.updateRoutineTemp)
       let tempRoutine = origins[this.origin]
-
-
+      console.log(this.tempRoutine)
       if (this.status === false) {
         this.status = true
         this.tempList = this.AllList[key]
@@ -97,8 +97,11 @@ export default {
         let i = 0;
         if (temp.workoutList.length === 0) {
           temp.addToList(key, [new WKSetData(1, false, 10)])
-          this.$router.push({name: 'AddRoutine', state: {index: tempRoutine.workoutList.length}})
-          console.log('추가완료')
+          this.$router.push({
+            name: this.origin,
+            params: {propRoutineName: temp.routineName},
+            state: {index: tempRoutine.workoutList.length}
+          })
         } else {
           for (i = 0; i < temp.workoutList.length; i++) {
             if (temp.workoutList[i].workoutName === key) {
@@ -109,8 +112,11 @@ export default {
           if (i === temp.workoutList.length) {
             temp.addToList(key, [new WKSetData(1, false, 10)])
             alert('추가완료')
-            console.log(tempRoutine)
-            this.$router.push({name: 'AddRoutine', state: {index: tempRoutine.workoutList.length}})
+            this.$router.push({
+              name: this.origin,
+              params: {propRoutineName: temp.routineName},
+              state: {index: tempRoutine.workoutList.length}
+            })
           }
         }
       }

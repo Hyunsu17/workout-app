@@ -71,15 +71,58 @@
           class="mt-3"
           cols="12"
       >
-        <record-table
-            ref="recordTable"
+        <v-row
             v-for="(value,idx) in record"
             :key="idx"
-            :reps="value.reps"
-            :idx="idx"
-            :radio-status="value.status"
+            style="width: 100%;"
         >
-        </record-table>
+          <v-col
+          >
+            <v-card-subtitle
+                class="text-center text-h3  pa-7"
+                style="position: relative;
+">
+              {{ idx + 1 }}
+            </v-card-subtitle>
+
+          </v-col>
+          <v-col
+          >
+            <v-card-subtitle
+                class="text-center text-h3  pa-7"
+                style="position: relative;"
+            >
+              <v-text-field
+                  variant="solo"
+                  flat="true"
+                  single-line
+                  type="number"
+                  class="text-center font-weight-bold"
+                  v-model="value.reps"
+              >
+              </v-text-field>
+            </v-card-subtitle>
+
+          </v-col>
+          <v-col
+          >
+            <v-checkbox
+                v-model="value.status"
+                style="font-size: 250%; position: relative;
+                left:50%; top:15%"
+            >
+            </v-checkbox>
+          </v-col>
+        </v-row>
+        <!--        <record-table-->
+        <!--            ref="recordTable"-->
+        <!--            v-for="(value,idx) in record"-->
+        <!--            :key="idx"-->
+        <!--            :reps="value.reps"-->
+        <!--            :idx="idx"-->
+        <!--            :radio-status="value.status"-->
+        <!--        >-->
+        <!--        </record-table>-->
       </v-col>
     </v-row>
 
@@ -88,49 +131,58 @@
 </template>
 
 <script>
-import RecordTable from "@/components/RecordTable.vue"
+// import RecordTable from "@/components/RecordTable.vue"
 
 export default {
   name: "RecordCard",
   props: {
-    record: Array,
-    name: String
+    modelValue: Array,
+    name: String,
   },
+  emits: ['update:modelValue'],
   components: {
-    RecordTable
+    // RecordTable
   },
+  data: () => ({})
+  ,
   created() {
-  console.log(this.record)
-    },
+  },
+  watch: {
+    record: {
+      handler(newVal,oldVal) {
+      }
+      ,
+      immediate: false
+    }
+  },
   computed: {
-    localParam: {
+    record: {
       get: function () {
-        return this.record
+        return this.modelValue
       },
-      set: function (record) {
-        this.$emit('', record)
+      set: function (value) {
+        this.$emit('update:modelValue', value)
       }
     }
   }
   , methods: {
-    onMethodRequest({ methodName, param }) {
-
+    onMethodRequest({methodName, param}) {
       //메서드 목록 객체
       const methods = {
-        setTrue: () => this.$refs.recordTable.forEach(table => table.setTrue()),
-        returnValue: () => this.$refs.recordTable.map(table => table.returnValue())
+        setTrue: () => this.record.forEach(element => element.status = true),
+        addSet: (_param) => this.record.push(_param),
+        removeLastSet: () => this.record.pop()
       }
       //메서드 실행
-      if(methods[methodName]){
-        let ret =[]
+      if (methods[methodName]) {
+        let ret = []
         ret = methods[methodName](param)
         return ret
-      }
-      else{
+      } else {
         return null
       }
 
-    },
+    }
   }
 
 }

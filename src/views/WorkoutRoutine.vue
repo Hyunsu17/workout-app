@@ -47,12 +47,11 @@
             class="text-h4 pt-9"
             style="height:60%;"
         >
-          롤스로이스 유령
+           유저1
         </v-card-title>
         <v-card-subtitle
             class="text-h6"
         >
-          다음 운동 알람을 설정해 주세요
         </v-card-subtitle>
       </v-card>
     </v-col>
@@ -137,7 +136,14 @@
               ></v-icon>
             </v-btn>
           </template>
-          <v-btn>update</v-btn>
+          <router-link
+              class="text-black"
+              :to ="'/update-routine/'+ item.routineName" >
+            <v-btn
+            >update
+            </v-btn>
+          </router-link>
+
           <v-dialog
               v-model="dialog"
           >
@@ -196,19 +202,16 @@ export default {
     ...mapState(useRecordStore, ['WKData', 'isExercising'])
   },
   methods: {
-    ...mapActions(useRecordStore, ['postCall', 'deleteCall','formatWKData','pushToWorkoutData']),
+    ...mapActions(useRecordStore, ['postCall', 'deleteCall', 'formatWKData', 'pushToWorkoutData']),
     initRoutine() {
       this.isWorkingOut = this.isExercising
       if (this.WKData) this.testData = this.WKData
     },
     deleteRoutine(userName, routineName) {
-       this.deleteCall('/api/routine', {userName: userName, routineName: routineName}).then(rep => {
-         this.getRoutine()
-       })
+      this.deleteCall('/api/routine', {userName: userName, routineName: routineName}).then(rep => {
+        this.getRoutine()
+      })
       this.dialog = false
-    },
-    updateRoutine(userName, routineName) {
-
     },
     getRoutine() {
       this.postCall('/api/test', {username: 'test'}).then((rep) => {
@@ -218,11 +221,11 @@ export default {
           for (let i = 0; i < rep.data.length; i++) this.pushToWorkoutData(new WKClass(rep.data[i].name))
           this.testData = this.WKData
         }
-
       })
     },
   },
   created() {
+    this.getRoutine()
     this.initRoutine()
   }
 }

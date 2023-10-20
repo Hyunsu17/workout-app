@@ -61,6 +61,11 @@ export const useRecordStore = defineStore('record', {
             console.log('해당 이름을 가진 루틴이 없습니다')
             return false
         },
+        deleteWorkoutByIdx(_routineName,_idx){
+            const temp = this.getWKObjectByRoutine(_routineName)
+            temp.workoutList.slice(_idx,1)
+
+        },
         /**
          *
          * @param _routineName
@@ -90,8 +95,11 @@ export const useRecordStore = defineStore('record', {
         getAddRoutineTemp() {
             return this.addRoutineTemp
         },
-        formatTempRoutineStorage() {
-            this.addRoutineTemp = {}
+        formatUpdateRoutineTemp(){
+            this.updateRoutineTemp = {}
+        },
+        formatAddRoutineTemp(){
+          this.addRoutineTemp= {}
         },
         formatWKData(){
             this.WKData = null

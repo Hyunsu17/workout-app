@@ -143,16 +143,13 @@ export default {
           name: name
         }
       }
-      return this.postCall('/api/test3', params).catch((error) => {
-        console.log(error)
+      return this.postCall('/api/workoutElement', params).catch((error) => {
       }).then((rep) => {
-        console.log(rep)
         if (rep.status === 200) return this.parseToWKData(rep)
       })
     },
     parseToWKData(rep) {
       const retObject = []
-      console.log("hello", rep)
       for (let i = 0; i < rep.data.length; i++) retObject.push({name: rep.data[i].workoutName})
       return retObject
     },
@@ -165,11 +162,9 @@ export default {
           name: name
         }
       }
-      return this.postCall('/api/test4',
+      return this.postCall('/api/workoutSet',
           params).catch((error) => {
-        console.log(error)
       }).then((rep) => {
-        console.log(rep)
         if (rep.status === 200) return this.parseToWKSetData(rep)
       })
     },
@@ -190,36 +185,23 @@ export default {
         this.WKNameList.push(this.getWKData[this.getRoutineIdxByName(this.name)].workoutList[i].workoutName)
       }
     },
-    /**
-     *
-     * @returns {boolean}
-     */
     checkStatus() {
       return this.getWKObjectByRoutine(this.name).workoutList.length === 0;
     },
+    async fetchDataIfStatusTrue(){
+      if (this.checkStatus()) {
+        const WKDetailData = await this.fetchWKDetailData(this.name);
+        const WKData = await this.fetchWKData(this.name);
 
-  }
-  ,
-  created() {
-    if (this.checkStatus()) {
-      this.fetchWKDetailData(this.name)
-          .then((WKDetailData) => {
-            console.log(WKDetailData)
-            this.fetchWKData(this.name)
-                .then((WKData) => {
-                  console.log(WKData)
-                  for (let i = 0; i < WKData.length; i++) {
-                    this.addToWKList(this.getRoutineIdxByName(this.name), WKData[i].name, WKDetailData[i])
-                  }
-                })
-                .then(() => {
-                  this.initValue()
-                  console.log(this.getWKData)
-                })
-          })
-    } else {
-      this.initValue()
+        for (let i = 0; i < WKData.length; i++) {
+          this.addToWKList(this.getRoutineIdxByName(this.name), WKData[i].name, WKDetailData[i]);
+        }
+      }
+      this.initValue();
     }
+  },
+  created() {
+    this.fetchDataIfStatusTrue()
   }
 }
 </script>

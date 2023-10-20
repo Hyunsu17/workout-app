@@ -52,7 +52,7 @@
     <record-card
         ref="recordCard"
         :name="name"
-        :record="record"
+        v-model="record"
     >
     </record-card>
   </div>
@@ -135,7 +135,7 @@
     >
       루틴 저장
     </v-btn>
-    <router-link to="/workout-list"
+    <router-link to="/workout-list/AddRoutine"
                  style="
     display: grid;
     justify-content: end;
@@ -177,6 +177,8 @@ export default {
       routineName: ""
     }
   },
+  props: ['propRoutineName']
+  ,
   created() {
     this.init()
   },
@@ -184,10 +186,8 @@ export default {
     idx: {
       handler(newVal) {
         if (newVal !== undefined) {
-          this.savePreviousStatus(newVal)
           this.name = this.addRoutineTemp.workoutList[newVal - 1].workoutName
           this.record = this.addRoutineTemp.workoutList[newVal - 1].workoutSetData
-          console.log(this.record)
         }
       }
       ,
@@ -203,11 +203,10 @@ export default {
     ...mapState(useRecordStore, ['addRoutineTemp'])
   },
   beforeRouteLeave(to, from, next) {
-    // this.savePreviousStatus()
     next()
   },
   methods: {
-    ...mapActions(useRecordStore, ['setAddRoutineTemp', 'postCall','formatTempRoutineStorage']),
+    ...mapActions(useRecordStore, ['setAddRoutineTemp', 'postCall','formatAddRoutineTemp']),
     init() {
       if (history.state.index === undefined) {
         this.idx = 1
@@ -217,15 +216,14 @@ export default {
       }
       if (this.isObjectEmpty(this.addRoutineTemp)) {
         this.isEmpty = true
-        this.Routine = new WKClass(this.routineName)
+        this.Routine = new WKClass('임시')
         this.setAddRoutineTemp(this.Routine)
-
       }
       else if(this.addRoutineTemp.workoutList.length === 0){
         this.isEmpty = true
       }
       else {
-        console.log(this.addRoutineTemp)
+        this.addRoutineTemp.routineName = this.propRoutineName
         this.routineName = this.addRoutineTemp.routineName
         this.name = this.addRoutineTemp.workoutList[this.idx - 1].workoutName
         this.Routine = this.addRoutineTemp
@@ -239,34 +237,25 @@ export default {
       this.$refs.recordCard.onMethodRequest({methodName: 'setTrue', param: undefined})
     },
     addSet() {
-      const newRecord = JSON.parse(JSON.stringify(this.record[this.record.length - 1]))
-      this.record.push(newRecord)
+      this.$refs.recordCard.onMethodRequest({methodName:'addSet',param:{reps:1, status:false, weight:10}})
     },
     removeLastSet() {
       this.record.pop()
     },
-    savePreviousStatus() {
-      const changedRecord = this.$refs.recordCard.onMethodRequest({methodName: 'returnValue', param: undefined})
-      console.log(changedRecord)
-      console.log(this.record)
-      for (let i = 0; i < this.record.length; i++) {
-        this.record[i].status = changedRecord[i]
-      }
-    },
     isObjectEmpty(obj) {
-      console.log("text",obj)
       return Object.keys(obj).length === 0;
     },
     callCreateRoutine() {
-      console.log(this.changeFormat())
       this.postCall('/api/routine', this.changeFormat()).then((rep) => {
         if (rep.status === 200) {
-          console.log('good')
+          this.formatAddRoutineTemp()
+          this.$router.push({
+            name: 'WorkoutRoutine'
+          })
         }
       }).catch((err)=>{
-        console.log(err)
       })
-      this.formatTempRoutineStorage()
+
     },
     changeFormat() {
       const dataFormat = {
@@ -280,7 +269,6 @@ export default {
       dataFormat.routine.name = this.routineName
       this.addRoutineTemp.workoutList.forEach(item => dataFormat.workoutElement.push({workoutName: item.workoutName}))
 
-      console.log(this.addRoutineTemp.workoutList[0])
       for (let i = 0; i < this.addRoutineTemp.workoutList.length; i++) {
         for (let j = 0; j < this.addRoutineTemp.workoutList[i].workoutSetData.length; j++) {
           dataFormat.workoutSet.push({

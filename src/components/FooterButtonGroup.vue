@@ -41,7 +41,7 @@
       <router-link
           class="text-black"
           v-else
-          to="/add-routine">
+          to="/add-routine/임시">
         <v-btn
           width="100%"
           height="200%"
