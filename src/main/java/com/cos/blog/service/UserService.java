@@ -1,6 +1,9 @@
 package com.cos.blog.service;
 
 
+import com.cos.blog.common.JsonBinder;
+import com.cos.blog.model.Routine;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +68,12 @@ public class UserService {
 			return new User();
 		});
 		return user;
+	}
+
+	@Transactional
+	public User parsingJsonAndGetUser(JsonNode saveObj){
+		User user = JsonBinder.JsonToModel(saveObj, User.class);
+        return 회원찾기(user.getUsername());
 	}
 //
 //

@@ -1,15 +1,18 @@
 package com.cos.blog.service;
 
+import com.cos.blog.common.JsonBinder;
 import com.cos.blog.model.Routine;
 import com.cos.blog.model.User;
 import com.cos.blog.model.WorkoutElement;
 import com.cos.blog.model.WorkoutSet;
 import com.cos.blog.repository.RoutineRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +34,7 @@ public class RoutineService {
 
     public Routine getOrCreateRoutineByUserAndName(User user, String name) {
         Optional<Routine> routineOptional = routineRepository.findByUserAndName(user, name);
-        return routineOptional.orElseGet(() -> Routine.builder().name(name).user(user).build());
+        return routineOptional.orElseGet(() -> Routine.builder().name(name).user(user).workoutElementList(new ArrayList<>()).build());
     }
 
     @Transactional
@@ -46,6 +49,12 @@ public class RoutineService {
         routine.getWorkoutElementList().clear();
 
         routineRepository.delete(routine);
+    }
+
+    @Transactional
+    public Routine parsingJsonAndGetRoutineByUser(JsonNode saveObj,User user){
+        Routine routine = JsonBinder.JsonToModel(saveObj, Routine.class);
+        return getRoutineByUserAndName(user,routine.getName());
     }
 
 }

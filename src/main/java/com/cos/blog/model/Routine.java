@@ -34,4 +34,13 @@ public class Routine {
     public Routine() {
 
     }
+
+    public void clearWorkoutList(){
+        if(this.workoutElementList!=null) {
+            this.workoutElementList.clear();
+        }
+    }
+    public void addAllToElementList(List<WorkoutElement> list){
+        this.workoutElementList.addAll(list);
+    }
 }

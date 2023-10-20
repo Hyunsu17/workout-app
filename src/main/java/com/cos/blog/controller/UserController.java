@@ -44,30 +44,8 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/test3")
-    public List<WorkoutElement> test3(@RequestBody JsonNode saveObj) {
-        User user;
-        Routine routine;
 
-        user = JsonBinder.JsonToModel(saveObj, User.class);
-        routine = JsonBinder.JsonToModel(saveObj, Routine.class);
 
-        User foundUser = userService.회원찾기(user.getUsername());
-        Routine specificRoutine = routineService.getRoutineByUserAndName(foundUser, routine.getName());
-        return workOutElementService.getWorkOutElementByRoutine(specificRoutine);
-    }
 
-    @PostMapping("/test4")
-    public List<List<WorkoutSet>> test4(@RequestBody JsonNode saveObj) {
-        User user;
-        Routine routine;
-
-        user = JsonBinder.JsonToModel(saveObj, User.class);
-        routine = JsonBinder.JsonToModel(saveObj, Routine.class);
-
-        User foundUser = userService.회원찾기(user.getUsername());
-        Routine specificRoutine = routineService.getRoutineByUserAndName(foundUser, routine.getName());
-        return workOutSetService.findAllSetByRoutine(specificRoutine);
-    }
 
 }

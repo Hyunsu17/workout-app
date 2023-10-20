@@ -76,7 +76,8 @@ public class RoutineApiController {
                 workoutSets.add(workoutSet);
             });
 
-            routine.setWorkoutElementList(workoutElements);
+            routine.clearWorkoutList();
+            routine.addAllToElementList(workoutElements);
             routineService.saveRoutine(routine, workoutElements, workoutSets);
 
         } catch (Exception e) {
